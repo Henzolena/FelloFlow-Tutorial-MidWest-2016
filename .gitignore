@@ -18,6 +18,11 @@ dist-ssr
 public/voiceover*.wav
 public/voiceover*.json
 
+# Large media files (not needed for deployment)
+public/fellowflow-screenshot/
+public/Meal-Purchase-Short.mov
+public/*.mov
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
