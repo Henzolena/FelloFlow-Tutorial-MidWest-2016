@@ -108,7 +108,7 @@ export const PHASES = [
   {
     id: 'intro',
     title: 'Intro',
-    audioFile: '/voiceover-intro.wav',
+    audioFile: 'https://cdn.jumpshare.com/preview/r2LZU8H4dd6hP54Aj0drJJ2f-JcUkmldyjWX_9iOdxQxUoJyCaNmzH8yAz2VNhWkjvK3h-sHOWVUoUi3-ODC1GFAftfHX4AiKCw06nwSHP_WV08EVjpildWyzPaKMEGRGkRfBA0cI15rV4OaElnum26yjbN-I2pg_cnoHs_AmgI.mp3',
     fallbackMs: 35_000,
     script:
       "Say warmly and professionally: Welcome to FellowFlow... where we believe conference registration should be the easiest part of your event planning. Today... we're excited to show you how we've transformed the complex sign-up process into a seamless experience. Our promise is simple... conference registration made effortless. To see FellowFlow in action... let's look at our upcoming flagship event: the Midwest Conference 2026. We've distilled the registration process into three intuitive steps.",
@@ -140,7 +140,7 @@ export const PHASES = [
   {
     id: 'form',
     title: 'Dynamic Form',
-    audioFile: '/voiceover-form.wav',
+    audioFile: 'https://cdn.jumpshare.com/preview/0ocQPq1lrw_GlZln1cMghiT0VzCbAAo91mnpQrtGNiPdjbYEdRJrYm5BR-qEyxPew3krU-r0KlZuhNanMjC1P6lKmFdpVjWXAjb7D_7EJ-G7G8kIwBLbJnaFlXSHtFK4BjJsUUZiUlb87RGFVkUI026yjbN-I2pg_cnoHs_AmgI.mp3',
     fallbackMs: 85_000,
     script:
       "Say warmly and professionally: Let's jump into the first step. Before entering our details... notice how the form dynamically adapts to your service preference. If you select the Amharic service... the age ranges are simplified into broad categories like Infant, Child, Youth, and Adult. However... if you switch to the English service, the system reveals more granular service groups to ensure attendees are placed in the right sessions. Under Child... you'll see Preschool and Children options with their age ranges. Youth... opens a Grade slash Level dropdown from seventh through twelfth grade. And Adult... adds College slash Career to that dropdown. Now that we see how it works... let's register our primary attendee. We'll type Test, for the first name... and User, for the last name. We'll select the Amharic service... and the Adult age range. Next, we select our Gender... which is vital because the system uses it to ensure proper dormitory and lodging assignments. We'll choose Male. For our Church... we'll pick Ethiopian Evangelical Christian Church in Austin from the list. Notice... the City field auto-fills to Austin, Texas, saving a step. And we'll pick an optional T-shirt size, Large, for a personal touch at check-in.",
@@ -199,7 +199,7 @@ export const PHASES = [
   {
     id: 'attendance',
     title: 'Full & Partial',
-    audioFile: '/voiceover-attendance.wav',
+    audioFile: 'https://cdn.jumpshare.com/preview/ZBEiho99nghimPWNvssJbJfdrankqZCVGPsrxgaxYDGy3-W3EkX3V9j1pwT3xXR7XubF_H73Wold6YZFwybAqgo923KA_8gUT1DeomDoPMKoG7LlGKT-JPff_e1yuLpKlW-0UcsDfIhcjlKqgC53xG6yjbN-I2pg_cnoHs_AmgI.wav',
     fallbackMs: 40_000,
     script:
       "Say warmly and professionally: Now for the most important part... the Attendance Type. First, Full Conference gives you the complete four-day experience — lodging, every meal, and all sessions. Watch the Price Summary instantly calculate your total. But life happens... and sometimes you need flexibility. Let's pick Partial Attendance instead. Say you're joining us Friday through Sunday... we'll tap those three days. Notice... every meal for those days is intelligently pre-selected for you. Running late on Friday? Simply uncheck Friday Breakfast... and Friday Lunch. Only pay for what you truly need — the price updates in real time.",
@@ -233,7 +233,7 @@ export const PHASES = [
   {
     id: 'kote',
     title: 'Kote',
-    audioFile: '/voiceover-kote.wav',
+    audioFile: 'https://cdn.jumpshare.com/preview/RGAC0XYmFlHT-y2g5RedL_jrpMaB5n5twsI7U0hsrPF85hI41rTWEdSrRhovvdMC93xMZhYiru8MSoxfz7X36P_Hm_2UxUx7B8vQGv8281N5ln-Ml1CNZlABz66F_wlxgkdVU3XSET0AC1cz5OKb_W6yjbN-I2pg_cnoHs_AmgI.mp3',
     fallbackMs: 32_000,
     script:
       "Say warmly and professionally: Finally... for our daily commuters, we have Kote. A simple ten-dollars-per-day rate, with no lodging fees attached. We'll tap Saturday... and Sunday. Unlike Partial, meals aren't pre-selected — giving you full control. We'll add Breakfast, Lunch, and Dinner for Saturday... and Breakfast and Lunch for Sunday. And just like that... the Price Summary gives us our exact, custom total. Conference registration, reimagined.",
@@ -257,7 +257,7 @@ export const PHASES = [
   {
     id: 'child',
     title: 'Child Registration',
-    audioFile: '/voiceover-child.wav',
+    audioFile: 'https://cdn.jumpshare.com/preview/E1rurDEK0MAwrnQoY41Mh_jo7r2p295OIpk7bqBFD1fG2Z-jHItYS8xnjX2rOs_S10Qn61MAXKtlV7izFJb4Jn8mcaEUTHpO_NFqF2T3QECtTisn8SDCVGU6R8VgRiYD0CBHeZSVCiCuwHNxSIWCx26yjbN-I2pg_cnoHs_AmgI.mp3',
     fallbackMs: 38_000,
     script:
       "Say warmly and professionally: FellowFlow makes it easy to add your whole family under one account. Let's click Add Another Person, to register a child. We'll enter the first name, Child... and the last name, Child. We'll select the English service... choose the Child age range... and pick the Children service group. We'll select their gender, and a T-shirt size. Now... for children, parents have a special choice. Scroll down, and toggle, Child will share bed with parent. Watch the price summary on the right... the lodging fee is completely removed instantly.",
@@ -297,7 +297,7 @@ export const PHASES = [
   {
     id: 'infant',
     title: 'Infant & Insurance',
-    audioFile: '/voiceover-infant.wav',
+    audioFile: 'https://cdn.jumpshare.com/preview/Tjn4B38VOzIFTE16G2qxLP7c_agtLNGnrUG6Tw4XqmOJ7m5nD0-3VhrM5RAy3cUNjoUCpSgG0BvQYDQmGG8P3TgBFUR369ffd1r_BbdQo9oMdrMZPxsjENgX7SVp73Dy0CBHeZSVCiCuwHNxSIWCx26yjbN-I2pg_cnoHs_AmgI.mp3',
     fallbackMs: 36_000,
     script:
       "Say warmly and professionally: Next... let's add a third family member. We click Add Another Person... enter the first name, Infant... and last name, Infant... and select the Infant age range. For infants, the dormitory and meals are completely complimentary. A small ten-dollar per-day campus insurance fee applies... bringing the infant's total to just forty dollars for the four-day conference. And with that, our entire family of three is registered and ready.",
@@ -332,7 +332,7 @@ export const PHASES = [
   {
     id: 'checkout',
     title: 'Contact & Checkout',
-    audioFile: '/voiceover-checkout.wav',
+    audioFile: 'https://cdn.jumpshare.com/preview/cvR9y39oOYfdUfg9byzrPy9Bx_UnViAInCc7Jm4E3NrCGhNwy5qLAHknVlx4kEDyrGyygB7x6uo2_Z--n9Lv2Y52mDYM3NA42rmZKmm9M0S8BDMBnabFn18YB8Rnzmlj26fm-AWLAXwaML0za1VnAW6yjbN-I2pg_cnoHs_AmgI.mp3',
     fallbackMs: 36_000,
     script:
       "Say warmly and professionally: Once our group is fully set... we click Next to fill out the contact info. Providing your email and phone number here is crucial... because this single email address is where your combined receipt, and all registration badges for your entire group, will be sent. After verifying all details on the Review page... we click Proceed to Payment. Here on our secure Stripe checkout... depending on your current device... you can choose to pay via credit card, bank transfer, Apple Pay, or use Link for a one-click checkout. We click Pay... and our registration is secured instantly.",
@@ -367,7 +367,7 @@ export const PHASES = [
   {
     id: 'badges',
     title: 'Digital Badges & Mobile Wallet',
-    audioFile: '/voiceover-badges.wav',
+    audioFile: 'https://cdn.jumpshare.com/preview/aOb_k3NKeWpnuSdnLdH2j3uAD3reEJRft-cPSomPzNMsZm8VKV8eHUY6GhJytvwlgGNxDGmeZ4YXCEpoBxAIFvkrNytqRN2HD2BlT5ya6x41YIHQGSZqpkic4dWMmPbK26fm-AWLAXwaML0za1VnAW6yjbN-I2pg_cnoHs_AmgI.mp3',
     fallbackMs: 58_000,
     script:
       "Say warmly and professionally: Success! Your confirmation page provides a full breakdown of the registration. From here... you can click the Apple Wallet button to add the wallet pass directly to your Apple devices. If you are eligible to buy meals... your digital badge will have a unique URL link in the details section on the back. Simply click that URL anytime to add preferred meal options for specific dates, and pay as usual. Your badge will automatically update to grant access to that paid meal service. You will also receive a registration confirmation email... containing your confirmation ID, payment details, and a PDF Registration Badge for each registrant in a single email. Print this badge out, or keep it on your phone... and have it ready at the campus upon check-in to easily access all your services.",
@@ -407,7 +407,7 @@ export const PHASES = [
   {
     id: 'meals',
     title: 'Add Meals Anytime',
-    audioFile: '/voiceover-meals.wav',
+    audioFile: 'https://cdn.jumpshare.com/preview/HKfSQIzaBpBh3GDefFilx6FxQ9-HvxDlovzVDn7-jo1G64ILQL_E-0mF322azNVJlBo37nglmu067hGDseSYvqjeihtx5FcqW5MwvIW7rq2631zcZuVAG2HB_v5Gmr2xhkqeAVi2c31-7sqBzW64tm6yjbN-I2pg_cnoHs_AmgI.mp3',
     fallbackMs: 42_000,
     script:
       "Say warmly and professionally: Remember the Buy Meals QR on your printed badge... or the link on the back of your Apple Wallet pass. Scanning either one brings you straight to your personal Meal Tickets page. You can also reach it anytime from the Purchase Meal Tickets button on your receipt. On this page, you'll see exactly which meals you've already purchased... which are still available... and your per-meal price. Simply pick the meals you want — breakfast, lunch, or dinner — on any eligible date... and your total updates instantly. Click Pay... and complete checkout with Stripe. Your badge is automatically updated. Your new meals are now live — just show your QR at the meal station to claim them. Adding meals has never been easier.",
