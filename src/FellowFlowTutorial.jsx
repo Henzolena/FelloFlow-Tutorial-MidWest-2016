@@ -517,20 +517,15 @@ export default function FellowFlowTutorial() {
 
   // ===== Multi-phase audio playback =====
 
-  // Try cached /voiceover-<id>.wav; else call Gemini TTS. Caches by phase id.
+  // Use the pre-recorded audioFile URL directly; fall back to Gemini TTS only if absent.
   const resolvePhaseAudio = async (phase) => {
     const cached = phaseSourcesRef.current[phase.id]
     if (cached) return cached
 
-    // 1. Check for a pre-generated local file
-    try {
-      const res = await fetch(phase.audioFile, { method: 'HEAD' })
-      if (res.ok) {
-        phaseSourcesRef.current[phase.id] = phase.audioFile
-        return phase.audioFile
-      }
-    } catch {
-      /* file not available, fall through to TTS */
+    // 1. Use the pre-recorded URL directly (skip HEAD check — CDNs often reject it)
+    if (phase.audioFile) {
+      phaseSourcesRef.current[phase.id] = phase.audioFile
+      return phase.audioFile
     }
 
     // 2. Fall back to live TTS generation
