@@ -12,3 +12,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+body.lang-am {
+  font-family: 'Noto Sans Ethiopic', sans-serif;
+}
