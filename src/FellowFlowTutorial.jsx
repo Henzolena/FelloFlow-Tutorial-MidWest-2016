@@ -36,16 +36,16 @@ import {
 } from 'lucide-react'
 import { askGeminiChat, generateTtsWavObjectUrl, hasGeminiApiKey } from './api/gemini'
 import {
-  getPhases,
-  getChurchList,
-  getAgeRanges,
-  getGradeLevelsYouth,
-  getGradeLevelsAdult,
-  getChildGroups,
-  getAttendanceTypes,
-  getConferenceDays,
-  getMealSlots,
+  PHASES,
   FINAL_STEP,
+  CHURCH_LIST,
+  AGE_RANGES,
+  GRADE_LEVELS_YOUTH,
+  GRADE_LEVELS_ADULT,
+  CHILD_GROUPS,
+  ATTENDANCE_TYPES,
+  CONFERENCE_DAYS,
+  MEAL_SLOTS,
   MEAL_PRICE_ADULT,
   MEAL_PRICE_CHILD,
   ADULT_DAILY_PRICE,
@@ -59,8 +59,6 @@ import {
   PROCESSING_FEE_RATE,
   PROCESSING_FEE_FIXED,
 } from './data/tutorialConstants'
-import { useLanguage } from './utils/i18n/LanguageContext'
-import LanguageToggle from './components/LanguageToggle'
 
 // The church the tutorial picks at step 17 (demonstrates city auto-fill)
 const PICKED_CHURCH = 'Ethiopian Evangelical Christian Church in Austin'
@@ -70,23 +68,10 @@ const EVENT_IMAGE =
   'https://fellowflow.online/_next/image?url=https%3A%2F%2Fcjvbvdzfijqhnrrbzuhl.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fevent-images%2F20bad896-a715-4519-a533-62dd64f7233c%2F1772832661085-enssjb.jpg&w=1920&q=75'
 
 export default function FellowFlowTutorial() {
-  const { language, t } = useLanguage()
-
-  // Localized constants
-  const PHASES = useMemo(() => getPhases(language), [language])
-  const CHURCH_LIST = useMemo(() => getChurchList(language), [language])
-  const AGE_RANGES = useMemo(() => getAgeRanges(language), [language])
-  const GRADE_LEVELS_YOUTH = useMemo(() => getGradeLevelsYouth(language), [language])
-  const GRADE_LEVELS_ADULT = useMemo(() => getGradeLevelsAdult(language), [language])
-  const CHILD_GROUPS = useMemo(() => getChildGroups(language), [language])
-  const ATTENDANCE_TYPES = useMemo(() => getAttendanceTypes(language), [language])
-  const CONFERENCE_DAYS = useMemo(() => getConferenceDays(language), [language])
-  const MEAL_SLOTS = useMemo(() => getMealSlots(language), [language])
-
   const [isPlaying, setIsPlaying] = useState(false)
   const [, setCurrentTime] = useState(0)
   const [currentStep, setCurrentStep] = useState(0)
-  const [subtitle, setSubtitle] = useState(t('ui.clickPlay'))
+  const [subtitle, setSubtitle] = useState('Click Play to begin presentation')
   const [currentPhaseIdx, setCurrentPhaseIdx] = useState(0)
   const phaseSourcesRef = useRef({}) // { [phaseId]: blobUrl | localUrl }
   const phaseTimelineRef = useRef({}) // { [phaseId]: { duration, events: [{step, text, pct}] } }
@@ -100,7 +85,7 @@ export default function FellowFlowTutorial() {
   const [chatMessages, setChatMessages] = useState([
     {
       role: 'assistant',
-      content: t('ui.chatIntro'),
+      content: 'Hi! I am the FellowFlow AI. Any questions about the dynamic form UI?',
     },
   ])
   const [chatInput, setChatInput] = useState('')
@@ -764,11 +749,6 @@ export default function FellowFlowTutorial() {
       >
       <audio ref={audioRef} onEnded={() => advanceOrFinish(currentPhaseIdx)} />
 
-      {/* Global floating language toggle */}
-      <div className="absolute top-6 right-8 z-50">
-        <LanguageToggle />
-      </div>
-
       <div
         className="h-[300vh] w-full transition-transform duration-[1200ms] ease-[cubic-bezier(0.65,0,0.35,1)] flex flex-col"
         style={{
@@ -785,15 +765,15 @@ export default function FellowFlowTutorial() {
                 className={`transition-all duration-1000 delay-100 ${currentStep >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
               >
                 <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1.5 rounded-full text-[11px] font-bold tracking-widest uppercase mb-6 shadow-sm">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> {t('ui.registrationOpen')}
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Registration Open
                 </div>
                 <h1 className="text-5xl md:text-[64px] font-extrabold text-[#0a2540] leading-[1.05] tracking-tight">
-                  {t('ui.conference')} <br />
-                  {t('ui.registration')} <br />
+                  Conference <br />
+                  Registration <br />
                   <span
                     className={`inline-block transition-all duration-1000 text-[#21a560] ${currentStep >= 4 ? 'drop-shadow-sm scale-[1.02] origin-left' : ''}`}
                   >
-                    {t('ui.madeEffortless')}
+                    Made Effortless
                   </span>
                 </h1>
               </div>
@@ -801,16 +781,18 @@ export default function FellowFlowTutorial() {
                 className={`transition-all duration-1000 delay-300 ${currentStep >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
               >
                 <p className="mt-6 text-[17px] text-slate-500 max-w-md leading-relaxed font-medium">
-                  {t('ui.heroSubtext')}
+                  From sign-up to confirmation in{' '}
+                  <strong className="text-slate-800 border-b-2 border-emerald-200">under 2 minutes</strong>. Smart
+                  pricing, secure payments, and instant receipts — all in one seamless flow.
                 </p>
                 <div className="mt-10 flex flex-wrap gap-6 text-xs text-slate-500 font-bold uppercase tracking-wide">
                   <div className="flex items-center gap-2">
                     <ShieldCheck className="w-4 h-4 text-[#21a560]" />
-                    {t('ui.ssl')}
+                    256-bit SSL
                   </div>
                   <div className="flex items-center gap-2">
                     <Zap className="w-4 h-4 text-amber-500" />
-                    {t('ui.instantConfirmation')}
+                    Instant Confirmation
                   </div>
                 </div>
               </div>
@@ -1119,7 +1101,7 @@ export default function FellowFlowTutorial() {
                     {formState.r1.service === 'english' && formState.r1.ageRange === 'child' && (
                       <div className={`p-1 -m-1 ${getFocusClass('service_group_container')}`}>
                         <label className="text-sm font-bold text-slate-800 mb-1.5 block">
-                          {t('form.serviceGroup')} <span className="text-red-500">*</span>
+                          Service Group <span className="text-red-500">*</span>
                         </label>
                         <div className="grid grid-cols-2 gap-3">
                           {CHILD_GROUPS.map((g) => (
@@ -1139,7 +1121,7 @@ export default function FellowFlowTutorial() {
                       (formState.r1.ageRange === 'youth' || formState.r1.ageRange === 'adult') && (
                         <div className={`p-1 -m-1 relative z-20 ${getFocusClass('service_group_container')}`}>
                           <label className="text-sm font-bold text-slate-800 mb-1.5 block">
-                            {t('form.gradeLevel')} <span className="text-red-500">*</span>
+                            Grade / Level <span className="text-red-500">*</span>
                           </label>
                           <div className="relative">
                             <div
@@ -1491,7 +1473,7 @@ export default function FellowFlowTutorial() {
 
                       {/* Gender */}
                       <div className={getFocusClass('r2_gender')}>
-                        <label className="text-sm font-bold text-slate-800 mb-1.5 block">{t('form.gender')} <span className="text-red-500">*</span></label>
+                        <label className="text-sm font-bold text-slate-800 mb-1.5 block">Gender <span className="text-red-500">*</span></label>
                         <div className="relative w-full sm:w-[200px]">
                           <div className="w-full h-10 bg-white border border-slate-300 rounded-lg px-3 flex items-center justify-between text-sm shadow-sm">
                             <span className={`font-medium ${r2.gender ? 'text-slate-900' : 'text-slate-500'}`}>{r2.gender || 'Select gender'}</span>
@@ -1515,7 +1497,7 @@ export default function FellowFlowTutorial() {
 
                       {/* City */}
                       <div>
-                        <label className="text-sm font-bold text-slate-800 mb-1.5 block">{t('form.city')} <span className="text-red-500">*</span></label>
+                        <label className="text-sm font-bold text-slate-800 mb-1.5 block">City <span className="text-red-500">*</span></label>
                         <input
                           type="text"
                           readOnly
@@ -1659,7 +1641,7 @@ export default function FellowFlowTutorial() {
 
                       {/* Gender */}
                       <div>
-                        <label className="text-sm font-bold text-slate-800 mb-1.5 block">{t('form.gender')} <span className="text-red-500">*</span></label>
+                        <label className="text-sm font-bold text-slate-800 mb-1.5 block">Gender <span className="text-red-500">*</span></label>
                         <div className="relative w-full sm:w-[200px]">
                           <div className="w-full h-10 bg-white border border-slate-300 rounded-lg px-3 flex items-center justify-between text-sm shadow-sm">
                             <span className={`font-medium ${r3.gender ? 'text-slate-900' : 'text-slate-500'}`}>{r3.gender || 'Select gender'}</span>
@@ -1681,7 +1663,7 @@ export default function FellowFlowTutorial() {
 
                       {/* City */}
                       <div>
-                        <label className="text-sm font-bold text-slate-800 mb-1.5 block">{t('form.city')} <span className="text-red-500">*</span></label>
+                        <label className="text-sm font-bold text-slate-800 mb-1.5 block">City <span className="text-red-500">*</span></label>
                         <input
                           type="text"
                           readOnly
@@ -1719,9 +1701,9 @@ export default function FellowFlowTutorial() {
                         <div className="flex items-start gap-3 p-4 rounded-xl bg-amber-50 border border-amber-200">
                           <ShieldCheck className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
                           <div>
-                            <p className="text-sm font-bold text-amber-800">{t('ui.campusInsurance')} — $10/{t('ui.day') || 'day'}</p>
+                            <p className="text-sm font-bold text-amber-800">Campus Insurance — $10/day</p>
                             <p className="text-xs text-amber-700 mt-0.5">
-                              {t('ui.infantLodgingNotice')} ({FULL_CONFERENCE_DAYS} {t('ui.daysLabel') || 'days'} × ${CAMPUS_INSURANCE_PER_DAY} = ${FULL_CONFERENCE_INSURANCE_TOTAL}).
+                              Dormitory &amp; meals are complimentary for infants. A small ${CAMPUS_INSURANCE_PER_DAY}/day campus insurance fee applies ({FULL_CONFERENCE_DAYS} days × ${CAMPUS_INSURANCE_PER_DAY} = ${FULL_CONFERENCE_INSURANCE_TOTAL}).
                             </p>
                           </div>
                         </div>
@@ -1740,7 +1722,7 @@ export default function FellowFlowTutorial() {
                       : 'border-slate-300 bg-white text-slate-500 hover:bg-slate-50 hover:border-slate-400 hover:text-slate-700'
                   }`}
                 >
-                  <Plus className="w-4 h-4" /> {t('form.addAnotherPerson')}
+                  <Plus className="w-4 h-4" /> Add Another Person
                 </button>
               )}
 
@@ -1749,8 +1731,8 @@ export default function FellowFlowTutorial() {
                 <div className={`bg-white rounded-2xl shadow-[0_2px_15px_rgba(0,0,0,0.03)] border border-slate-200 mb-4 transition-all duration-500 ${formState.focus === 'contact_fields' ? 'ring-2 ring-emerald-400' : ''}`}>
                   <div className="p-6 md:p-7 space-y-5">
                     <div>
-                      <h2 className="text-xl font-extrabold text-slate-900 tracking-tight">{t('ui.contactInformation')}</h2>
-                      <p className="text-slate-500 mt-1 text-sm font-medium">{t('ui.contactSubtext')}</p>
+                      <h2 className="text-xl font-extrabold text-slate-900 tracking-tight">Contact Information</h2>
+                      <p className="text-slate-500 mt-1 text-sm font-medium">Provide the email and phone for registration confirmations and receipts</p>
                     </div>
                     <div>
                       <label className="text-sm font-bold text-slate-800 mb-1.5 block">Email <span className="text-red-500">*</span></label>
@@ -1763,7 +1745,7 @@ export default function FellowFlowTutorial() {
                           formState.contact.email ? 'border-[#0a2540] text-slate-900 bg-slate-50' : 'border-slate-300 text-slate-900'
                         }`}
                       />
-                      <p className="text-[11px] text-slate-500 mt-1.5 font-medium">{t('ui.emailSubtext')}</p>
+                      <p className="text-[11px] text-slate-500 mt-1.5 font-medium">Confirmation emails and receipts will be sent to this address</p>
                     </div>
                     <div>
                       <label className="text-sm font-bold text-slate-800 mb-1.5 block">Phone <span className="text-red-500">*</span></label>
@@ -1812,8 +1794,8 @@ export default function FellowFlowTutorial() {
                 return (
                   <div className="bg-white rounded-2xl shadow-[0_2px_15px_rgba(0,0,0,0.03)] border border-slate-200 mb-4 overflow-hidden">
                     <div className="p-6 md:p-7 border-b border-slate-100">
-                      <h2 className="text-xl font-extrabold text-slate-900 tracking-tight">{t('ui.reviewAndSubmit')}</h2>
-                      <p className="text-slate-500 mt-1 text-sm font-medium">{t('ui.verifyDetailsBeforeSubmit')}</p>
+                      <h2 className="text-xl font-extrabold text-slate-900 tracking-tight">Review &amp; Submit</h2>
+                      <p className="text-slate-500 mt-1 text-sm font-medium">Verify all details before submitting</p>
                     </div>
 
                     {/* CONTACT */}
@@ -1825,28 +1807,24 @@ export default function FellowFlowTutorial() {
 
                     {/* REGISTRANTS */}
                     <div className="px-6 md:px-7 mt-5 pb-2">
-                      <p className="text-[10px] font-bold text-slate-500 tracking-[0.12em] uppercase mb-3">{t('data.registrants.registrants')} (3)</p>
+                      <p className="text-[10px] font-bold text-slate-500 tracking-[0.12em] uppercase mb-3">Registrants (3)</p>
                       <div className="space-y-2.5">
                         {/* Test (Adult, Kote) */}
                         <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-start justify-between gap-3">
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center gap-2">
                               <User className="w-4 h-4 text-slate-500 shrink-0" />
-                              <span className="font-bold text-slate-900 text-sm">{(r.firstName || r.lastName) ? `${r.firstName} ${r.lastName}` : t('data.registrants.person1')}</span>
-                              <span className="inline-flex items-center bg-slate-200 text-slate-700 px-2 py-0.5 rounded-md text-[10px] font-bold">{t('data.ageRanges.adult.label')}</span>
+                              <span className="font-bold text-slate-900 text-sm">{r.firstName || 'Test'} {r.lastName || 'Test'}</span>
+                              <span className="inline-flex items-center bg-slate-200 text-slate-700 px-2 py-0.5 rounded-md text-[10px] font-bold">Adult</span>
                             </div>
-                            <p className="text-xs text-slate-600 mt-1 font-medium">
-                              {r.attendanceType === 'full' ? t('data.attendanceTypes.full.label')
-                                : r.attendanceType === 'partial' ? t('data.attendanceTypes.partial.label')
-                                : r.attendanceType === 'kote' ? t('data.attendanceTypes.kote.label') : ''} — {r1DaysLabel}
-                            </p>
+                            <p className="text-xs text-slate-600 mt-1 font-medium">{attendanceLabel} — {r1DaysLabel}</p>
                             <p className="text-xs text-amber-700 mt-1 font-semibold flex items-center gap-1">
-                              <Utensils className="w-3 h-3" /> {r1MealCount} {t('data.meals.meal')} (+${r1MealTotal.toFixed(2)})
+                              <Utensils className="w-3 h-3" /> {r1MealCount} Meal (+${r1MealTotal.toFixed(2)})
                             </p>
                           </div>
                           <div className="text-right shrink-0">
                             <p className="font-bold text-slate-900 text-sm">${r1Base.toFixed(2)}</p>
-                            <p className="text-[11px] text-amber-700 font-bold mt-0.5">+${r1MealTotal.toFixed(2)} {t('data.meals.meal')}</p>
+                            <p className="text-[11px] text-amber-700 font-bold mt-0.5">+${r1MealTotal.toFixed(2)} Meal</p>
                           </div>
                         </div>
 
@@ -1855,24 +1833,24 @@ export default function FellowFlowTutorial() {
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center gap-2">
                               <User className="w-4 h-4 text-slate-500 shrink-0" />
-                              <span className="font-bold text-slate-900 text-sm">{r2.firstName ? `${r2.firstName} ${r2.lastName || ''}` : t('data.ageRanges.child.label')}</span>
-                              <span className="inline-flex items-center bg-slate-200 text-slate-700 px-2 py-0.5 rounded-md text-[10px] font-bold">{t('data.ageRanges.child.label')}</span>
+                              <span className="font-bold text-slate-900 text-sm">Child Child</span>
+                              <span className="inline-flex items-center bg-slate-200 text-slate-700 px-2 py-0.5 rounded-md text-[10px] font-bold">Child</span>
                             </div>
-                            <p className="text-xs text-slate-600 mt-1 font-medium">{t('data.attendanceTypes.full.label')}</p>
+                            <p className="text-xs text-slate-600 mt-1 font-medium">Full Conference</p>
                             {r2.sharesBedWithParent && (
-                              <p className="text-xs text-emerald-600 mt-0.5 font-semibold">{t('ui.infantLodgingNotice')}</p>
+                              <p className="text-xs text-emerald-600 mt-0.5 font-semibold">Sharing bed with parent — lodging free</p>
                             )}
                             <p className="text-xs text-amber-700 mt-1 font-semibold flex items-center gap-1">
-                              <Utensils className="w-3 h-3" /> {FULL_CONFERENCE_MEAL_COUNT} {t('data.meals.meal')} (+${r2MealTotal.toFixed(2)})
+                              <Utensils className="w-3 h-3" /> {FULL_CONFERENCE_MEAL_COUNT} Meal (+${r2MealTotal.toFixed(2)})
                             </p>
                           </div>
                           <div className="text-right shrink-0">
                             {r2.sharesBedWithParent ? (
-                              <p className="font-extrabold text-emerald-600 text-sm">{t('ui.free')}</p>
+                              <p className="font-extrabold text-emerald-600 text-sm">FREE</p>
                             ) : (
                               <p className="font-bold text-slate-900 text-sm">${r2Lodging.toFixed(2)}</p>
                             )}
-                            <p className="text-[11px] text-amber-700 font-bold mt-0.5">+${r2MealTotal.toFixed(2)} {t('data.meals.meal')}</p>
+                            <p className="text-[11px] text-amber-700 font-bold mt-0.5">+${r2MealTotal.toFixed(2)} Meal</p>
                           </div>
                         </div>
 
@@ -1881,12 +1859,12 @@ export default function FellowFlowTutorial() {
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center gap-2">
                               <User className="w-4 h-4 text-slate-500 shrink-0" />
-                              <span className="font-bold text-slate-900 text-sm">{r3.firstName ? `${r3.firstName} ${r3.lastName || ''}` : t('data.ageRanges.infant.label')}</span>
-                              <span className="inline-flex items-center bg-slate-200 text-slate-700 px-2 py-0.5 rounded-md text-[10px] font-bold">{t('data.ageRanges.child.label')}</span>
+                              <span className="font-bold text-slate-900 text-sm">Infant Infant</span>
+                              <span className="inline-flex items-center bg-slate-200 text-slate-700 px-2 py-0.5 rounded-md text-[10px] font-bold">Child</span>
                             </div>
-                            <p className="text-xs text-slate-600 mt-1 font-medium">{t('data.attendanceTypes.full.label')}</p>
+                            <p className="text-xs text-slate-600 mt-1 font-medium">Full Conference</p>
                             <p className="text-xs text-amber-700 mt-1 font-semibold flex items-center gap-1">
-                              <Utensils className="w-3 h-3" /> {FULL_CONFERENCE_MEAL_COUNT} {t('data.meals.meal')} (+$0.00)
+                              <Utensils className="w-3 h-3" /> {FULL_CONFERENCE_MEAL_COUNT} Meal (+$0.00)
                             </p>
                           </div>
                           <div className="text-right shrink-0">
@@ -1899,19 +1877,19 @@ export default function FellowFlowTutorial() {
                     {/* TOTALS */}
                     <div className="mx-6 md:mx-7 my-5 p-4 rounded-xl border border-slate-200 space-y-2 text-sm">
                       <div className="flex justify-between">
-                        <span className="text-slate-600 font-medium">{t('form.subtotal')}</span>
+                        <span className="text-slate-600 font-medium">Subtotal</span>
                         <span className="font-bold text-slate-900">${registrationSubtotal.toFixed(2)}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-amber-700 font-medium flex items-center gap-1">🍽️ {t('data.meals.meal')}</span>
+                        <span className="text-amber-700 font-medium flex items-center gap-1">🍽️ Meal</span>
                         <span className="font-bold text-amber-700">+${mealSubtotal.toFixed(2)}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-slate-500 font-medium flex items-center gap-1">{t('form.processingFee')} <Info className="w-3 h-3" /></span>
+                        <span className="text-slate-500 font-medium flex items-center gap-1">Processing Fee <Info className="w-3 h-3" /></span>
                         <span className="font-semibold text-slate-500">+${fee.toFixed(2)}</span>
                       </div>
                       <div className="flex justify-between pt-2.5 border-t border-slate-200">
-                        <span className="text-slate-900 font-extrabold">{t('form.total')}</span>
+                        <span className="text-slate-900 font-extrabold">Total</span>
                         <span className="text-xl font-black text-slate-900">${total.toFixed(2)}</span>
                       </div>
                     </div>
@@ -1924,7 +1902,7 @@ export default function FellowFlowTutorial() {
                   type="button"
                   className="px-4 py-2 border border-slate-200 bg-white rounded-lg text-slate-600 text-sm font-semibold flex items-center gap-2 hover:bg-slate-50"
                 >
-                  <ArrowRight className="w-4 h-4 rotate-180" /> {t('ui.back')}
+                  <ArrowRight className="w-4 h-4 rotate-180" /> Back
                 </button>
                 <button
                   type="button"
@@ -1934,7 +1912,7 @@ export default function FellowFlowTutorial() {
                       : 'bg-[#0a2540] text-white hover:bg-[#153b61]'
                   }`}
                 >
-                  {formState.view === 'review' ? t('ui.proceedToPayment') : t('ui.next')} <ArrowRight className="w-4 h-4" />
+                  {formState.view === 'review' ? 'Proceed to Payment' : 'Next'} <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
             </div>
@@ -1995,12 +1973,12 @@ export default function FellowFlowTutorial() {
                 return (
                   <div className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] border-2 border-emerald-200 p-5">
                     <div className="flex items-center gap-2 font-extrabold text-slate-900 text-sm mb-3">
-                      <Users className="w-4 h-4 text-[#21a560]" /> {t('form.priceSummary')}
+                      <Users className="w-4 h-4 text-[#21a560]" /> Price Summary
                     </div>
-                    <div className="text-sm font-semibold text-slate-700 mb-3">{t('ui.midwestConference2026')}</div>
+                    <div className="text-sm font-semibold text-slate-700 mb-3">Midwest Conference 2026</div>
                     {!showBreakdown ? (
                       <div className="text-xs text-slate-500 font-medium">
-                        {r.firstName ? t('form.selectAttendanceTypePrompt') : t('form.addRegistrantDetailsPrompt')}
+                        {r.firstName ? 'Select an Attendance Type to see pricing' : 'Add registrant details to see pricing'}
                       </div>
                     ) : (
                       <div className="space-y-1.5 text-sm">
@@ -2013,9 +1991,9 @@ export default function FellowFlowTutorial() {
                         {/* r2 row — child (shows "Free" when sharing bed) */}
                         {r2HasData && (
                           <div className="flex justify-between">
-                            <span className="text-slate-700 font-medium">{r2.firstName || t('data.ageRanges.child.label')}</span>
+                            <span className="text-slate-700 font-medium">{r2.firstName || 'Child'}</span>
                             {r2.sharesBedWithParent ? (
-                              <span className="text-emerald-600 font-bold">{t('ui.free')}</span>
+                              <span className="text-emerald-600 font-bold">Free</span>
                             ) : (
                               <span className="font-bold text-slate-900">${r2Lodging.toFixed(2)}</span>
                             )}
@@ -2025,28 +2003,28 @@ export default function FellowFlowTutorial() {
                         {/* r3 row — infant */}
                         {r3HasData && (
                           <div className="flex justify-between">
-                            <span className="text-slate-700 font-medium">{r3.firstName || t('data.ageRanges.infant.label')}</span>
+                            <span className="text-slate-700 font-medium">{r3.firstName || 'Infant'}</span>
                             <span className="font-bold text-slate-900">${r3Fee.toFixed(2)}</span>
                           </div>
                         )}
 
                         <div className="flex justify-between pt-2 border-t border-slate-100">
-                          <span className="text-slate-600 font-semibold">{t('form.subtotal')}</span>
+                          <span className="text-slate-600 font-semibold">Subtotal</span>
                           <span className="font-bold text-slate-900">${registrationSubtotal.toFixed(2)}</span>
                         </div>
 
                         {mealSubtotal > 0 && (
                           <div className="flex justify-between">
-                            <span className="text-amber-700 font-medium">🍽️ {t('data.meals.meal')}</span>
+                            <span className="text-amber-700 font-medium">🍽️ Meal</span>
                             <span className="font-bold text-amber-700">+${mealSubtotal.toFixed(2)}</span>
                           </div>
                         )}
                         <div className="flex justify-between">
-                          <span className="text-slate-500 font-medium text-xs">{t('form.processingFee')}</span>
+                          <span className="text-slate-500 font-medium text-xs">Processing Fee</span>
                           <span className="font-semibold text-slate-500 text-xs">+${fee.toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between pt-3 border-t border-slate-100">
-                          <span className="text-slate-900 font-extrabold">{t('form.total')}</span>
+                          <span className="text-slate-900 font-extrabold">Total</span>
                           <span className="text-xl font-black text-slate-900">${total.toFixed(2)}</span>
                         </div>
                       </div>
@@ -2059,13 +2037,13 @@ export default function FellowFlowTutorial() {
                   type="button"
                   className="bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs font-semibold text-slate-700 flex items-center justify-center gap-1.5 hover:bg-slate-50"
                 >
-                  <DollarSign className="w-3.5 h-3.5" /> {t('ui.viewPricing')}
+                  <DollarSign className="w-3.5 h-3.5" /> View Pricing
                 </button>
                 <button
                   type="button"
                   className="bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs font-semibold text-slate-700 flex items-center justify-center gap-1.5 hover:bg-slate-50"
                 >
-                  <CreditCard className="w-3.5 h-3.5" /> {t('ui.processingFees')}
+                  <CreditCard className="w-3.5 h-3.5" /> Processing Fees
                 </button>
               </div>
             </div>
@@ -2085,7 +2063,7 @@ export default function FellowFlowTutorial() {
                     <Users className="w-5 h-5 text-white" />
                   </div>
                 </div>
-                <p className="text-xs font-semibold text-slate-500 tracking-wide">{t('ui.payFellowFlow')}</p>
+                <p className="text-xs font-semibold text-slate-500 tracking-wide">Pay FellowFlow</p>
                 <p className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mt-1">$197.87</p>
                 <div className="mt-10 space-y-4 text-sm">
                   <div className="flex justify-between gap-4">
@@ -2117,7 +2095,7 @@ export default function FellowFlowTutorial() {
                     <p className="font-bold text-slate-900 shrink-0">$12.00</p>
                   </div>
                   <button type="button" className="text-xs text-slate-500 font-semibold flex items-center gap-1 mt-2">
-                    {t('ui.showAllItems')} <ChevronDown className="w-3 h-3" />
+                    Show all 17 items <ChevronDown className="w-3 h-3" />
                   </button>
                 </div>
               </div>
@@ -2125,32 +2103,32 @@ export default function FellowFlowTutorial() {
               {/* Right: Payment form */}
               <div className="w-full lg:w-[54%] px-8 md:px-14 py-10 md:py-14">
                 <div className={`w-full rounded-lg bg-[#00D66F] text-black font-bold py-3.5 flex items-center justify-center gap-2 cursor-pointer transition-all ${formState.focus === 'stripe_methods' ? 'ring-4 ring-[#00D66F]/40 scale-[1.02]' : ''}`}>
-                  {t('ui.payWith')} <span className="bg-black text-white px-1.5 py-0.5 rounded text-[11px] ml-1">▶ link</span>
+                  Pay with <span className="bg-black text-white px-1.5 py-0.5 rounded text-[11px] ml-1">▶ link</span>
                 </div>
                 <div className="flex items-center gap-3 my-5">
                   <div className="h-px bg-slate-200 flex-1" />
-                  <span className="text-[11px] text-slate-400 font-semibold tracking-wide uppercase">{t('ui.or')}</span>
+                  <span className="text-[11px] text-slate-400 font-semibold tracking-wide">OR</span>
                   <div className="h-px bg-slate-200 flex-1" />
                 </div>
 
-                <p className="text-sm font-bold text-slate-900 mb-2">{t('form.contactInformation')}</p>
+                <p className="text-sm font-bold text-slate-900 mb-2">Contact information</p>
                 <div className="w-full h-11 bg-slate-50 border border-slate-200 rounded-md px-3 flex items-center text-sm text-slate-700 font-medium mb-6">
-                  <span className="text-slate-400 mr-2 w-14 shrink-0">{t('form.email')}</span>
+                  <span className="text-slate-400 mr-2 w-14 shrink-0">Email</span>
                   <span className="font-semibold">{formState.contact.email}</span>
                 </div>
 
-                <p className="text-sm font-bold text-slate-900 mb-3">{t('ui.paymentMethod')}</p>
+                <p className="text-sm font-bold text-slate-900 mb-3">Payment method</p>
                 <div className={`rounded-lg border ${formState.focus === 'stripe_methods' ? 'border-[#635BFF] ring-2 ring-[#635BFF]/30' : 'border-slate-300'} transition-all`}>
                   <div className="flex items-center gap-3 px-3.5 py-3 border-b border-slate-200">
                     <div className="w-4 h-4 rounded-full border-2 border-slate-900 flex items-center justify-center">
                       <div className="w-2 h-2 rounded-full bg-slate-900" />
                     </div>
                     <CreditCard className="w-4 h-4 text-slate-700" />
-                    <span className="text-sm font-semibold text-slate-900">{t('ui.card')}</span>
+                    <span className="text-sm font-semibold text-slate-900">Card</span>
                   </div>
                   <div className="p-3.5 space-y-2.5">
                     <div>
-                      <p className="text-xs font-bold text-slate-700 mb-1">{t('ui.cardInformation')}</p>
+                      <p className="text-xs font-bold text-slate-700 mb-1">Card information</p>
                       <div className="h-10 border border-slate-300 rounded-md px-3 flex items-center text-sm text-slate-400">1234 1234 1234 1234
                         <span className="ml-auto flex items-center gap-1">
                           <span className="text-[10px] font-bold text-[#1a1f71]">VISA</span>
@@ -2159,13 +2137,13 @@ export default function FellowFlowTutorial() {
                         </span>
                       </div>
                       <div className="grid grid-cols-2 gap-0 mt-0 -mt-px">
-                        <div className="h-10 border border-slate-300 rounded-bl-md px-3 flex items-center text-sm text-slate-400">{t('ui.expiryPlaceholder')}</div>
-                        <div className="h-10 border border-slate-300 border-l-0 rounded-br-md px-3 flex items-center text-sm text-slate-400 justify-between">{t('ui.cvc')} <span className="text-slate-300">💳</span></div>
+                        <div className="h-10 border border-slate-300 rounded-bl-md px-3 flex items-center text-sm text-slate-400">MM / YY</div>
+                        <div className="h-10 border border-slate-300 border-l-0 rounded-br-md px-3 flex items-center text-sm text-slate-400 justify-between">CVC <span className="text-slate-300">💳</span></div>
                       </div>
                     </div>
                     <div>
-                      <p className="text-xs font-bold text-slate-700 mb-1">{t('ui.cardholderName')}</p>
-                      <div className="h-10 border border-slate-300 rounded-md px-3 flex items-center text-sm text-slate-400">{t('ui.fullNameOnCard')}</div>
+                      <p className="text-xs font-bold text-slate-700 mb-1">Cardholder name</p>
+                      <div className="h-10 border border-slate-300 rounded-md px-3 flex items-center text-sm text-slate-400">Full name on card</div>
                     </div>
                   </div>
                 </div>
@@ -2175,20 +2153,20 @@ export default function FellowFlowTutorial() {
                   <div className="flex items-center gap-3 px-3.5 py-3 border-b border-slate-200">
                     <div className="w-4 h-4 rounded-full border border-slate-400" />
                     <span className="text-lg">🏦</span>
-                    <span className="text-sm font-semibold text-slate-900">{t('ui.bank')}</span>
-                    <span className="ml-auto bg-[#00D66F] text-black text-[10px] font-bold px-2 py-0.5 rounded">{t('ui.fiveBack')}</span>
+                    <span className="text-sm font-semibold text-slate-900">Bank</span>
+                    <span className="ml-auto bg-[#00D66F] text-black text-[10px] font-bold px-2 py-0.5 rounded">$5 back</span>
                   </div>
                   <div className="flex items-center gap-3 px-3.5 py-3">
                     <div className="w-4 h-4 rounded-full border border-slate-400" />
                     <span className="w-5 h-5 bg-[#FFA8CD] rounded-sm flex items-center justify-center text-[10px] font-black">K</span>
-                    <span className="text-sm font-semibold text-slate-900">{t('ui.klarna')}</span>
+                    <span className="text-sm font-semibold text-slate-900">Klarna</span>
                   </div>
                 </div>
 
                 <button type="button" className="w-full mt-6 py-3 rounded-md bg-[#635BFF] text-white font-bold text-sm hover:bg-[#5048d3] transition-colors shadow-md">
-                  {t('ui.pay')}
+                  Pay
                 </button>
-                <p className="text-[11px] text-slate-400 text-center mt-3 font-medium">{t('ui.poweredBy')}</p>
+                <p className="text-[11px] text-slate-400 text-center mt-3 font-medium">Powered by <span className="font-bold text-slate-600">stripe</span> · Terms · Privacy</p>
               </div>
             </div>
           )}
@@ -2200,18 +2178,18 @@ export default function FellowFlowTutorial() {
                 <div className="w-14 h-14 rounded-full border-[3px] border-emerald-500 mx-auto flex items-center justify-center">
                   <Check className="w-7 h-7 text-emerald-500" strokeWidth={3} />
                 </div>
-                <h2 className="text-2xl font-extrabold text-slate-900 mt-5 tracking-tight">{t('ui.registrationConfirmed')}</h2>
+                <h2 className="text-2xl font-extrabold text-slate-900 mt-5 tracking-tight">Registration Confirmed!</h2>
                 <p className="text-slate-500 mt-3 text-sm font-medium leading-relaxed">
-                  {t('ui.paymentSuccessful')}
+                  Your payment was successful and your registration is confirmed.
                 </p>
                 <p className="text-slate-500 mt-2 text-xs font-medium">
-                  {t('ui.confirmationEmailSent')}
+                  A confirmation email will be sent to your registered email address.
                 </p>
                 <button type="button" className="mt-6 w-full py-3 rounded-lg bg-white border border-slate-200 text-slate-800 font-bold text-sm flex items-center justify-center gap-2 hover:bg-slate-50">
-                  <DollarSign className="w-4 h-4" /> {t('ui.viewReceipt')}
+                  <DollarSign className="w-4 h-4" /> View Receipt
                 </button>
                 <button type="button" className="mt-2 w-full py-3 rounded-lg bg-[#0a2540] text-white font-bold text-sm hover:bg-[#153b61]">
-                  {t('ui.backToHome')}
+                  Back to Home
                 </button>
               </div>
             </div>
@@ -2221,20 +2199,20 @@ export default function FellowFlowTutorial() {
           {formState.view === 'receipt' && (
             <div className="min-h-screen w-full flex items-start justify-center bg-slate-50 px-6 py-10 md:py-14 pb-40">
               <div className="w-full max-w-md bg-white rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.06)] border border-slate-100 p-6 md:p-8">
-                <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight text-center">{t('ui.registrationReceipt')}</h2>
-                <p className="text-center text-slate-500 mt-1 text-sm font-medium">{t('ui.midwestConference2026')}</p>
+                <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight text-center">Registration Receipt</h2>
+                <p className="text-center text-slate-500 mt-1 text-sm font-medium">Midwest Conference 2026</p>
                 <div className="flex justify-center mt-3">
-                  <span className="inline-flex items-center bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1 rounded-full text-xs font-bold">{t('ui.confirmed')}</span>
+                  <span className="inline-flex items-center bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1 rounded-full text-xs font-bold">Confirmed</span>
                 </div>
                 <div className="flex justify-center gap-2 mt-3 flex-wrap">
-                  <span className="inline-flex items-center bg-sky-50 text-sky-700 px-2.5 py-1 rounded-md text-[11px] font-bold">{t('ui.fullAccess')}</span>
-                  <span className="inline-flex items-center bg-indigo-50 text-indigo-700 px-2.5 py-1 rounded-md text-[11px] font-bold">{t('data.ageRanges.adult.label')}</span>
-                  <span className="inline-flex items-center bg-purple-50 text-purple-700 px-2.5 py-1 rounded-md text-[11px] font-bold">{t('data.attendanceTypes.full.label')}</span>
+                  <span className="inline-flex items-center bg-sky-50 text-sky-700 px-2.5 py-1 rounded-md text-[11px] font-bold">Full Access</span>
+                  <span className="inline-flex items-center bg-indigo-50 text-indigo-700 px-2.5 py-1 rounded-md text-[11px] font-bold">Adult</span>
+                  <span className="inline-flex items-center bg-purple-50 text-purple-700 px-2.5 py-1 rounded-md text-[11px] font-bold">Full Conference</span>
                 </div>
 
                 <div className="flex items-start justify-between mt-5 gap-4">
                   <div className="min-w-0">
-                    <p className="text-[10px] font-bold text-slate-500 tracking-[0.12em] uppercase">{t('ui.confirmationCode')}</p>
+                    <p className="text-[10px] font-bold text-slate-500 tracking-[0.12em] uppercase">Confirmation ID</p>
                     <p className="font-extrabold text-slate-900 text-base mt-0.5">MW26-TU-58170</p>
                     <p className="text-[10px] text-slate-400 font-mono mt-0.5 tracking-tight truncate">3167bb1f-6fa2-467a-95c5-d98b6be36869</p>
                   </div>
@@ -2245,7 +2223,7 @@ export default function FellowFlowTutorial() {
                         <div key={i} className={`w-full h-full ${(i * 7 + 3) % 3 === 0 ? 'bg-slate-900' : 'bg-white'}`} />
                       ))}
                     </div>
-                    <span className="text-[9px] font-bold text-slate-600 tracking-wide">{t('ui.checkIn')}</span>
+                    <span className="text-[9px] font-bold text-slate-600 tracking-wide">CHECK-IN</span>
                     <button
                       type="button"
                       className={`mt-1 inline-flex items-center gap-1.5 bg-white border rounded-full px-3 py-1.5 text-xs font-bold text-slate-900 transition-all ${
@@ -2254,67 +2232,67 @@ export default function FellowFlowTutorial() {
                           : 'border-slate-300'
                       }`}
                     >
-                      <span className="text-base leading-none"></span> {t('ui.appleWallet')}
+                      <span className="text-base leading-none"></span> Apple Wallet
                     </button>
                   </div>
                 </div>
 
                 <div className="mt-5 pt-4 border-t border-slate-100 text-sm">
-                  <p className="text-[10px] font-bold text-slate-500 tracking-[0.12em] uppercase">{t('ui.contact')}</p>
+                  <p className="text-[10px] font-bold text-slate-500 tracking-[0.12em] uppercase">Contact</p>
                   <p className="text-slate-700 mt-1 font-medium">{formState.contact.email || 'support@fellowflow.online'}</p>
                   <p className="text-slate-700 font-medium">{formState.contact.phone || '1234567890'}</p>
                 </div>
 
                 <div className="mt-4 pt-4 border-t border-slate-100 text-sm">
-                  <p className="text-[10px] font-bold text-slate-500 tracking-[0.12em] uppercase">{t('ui.event')}</p>
+                  <p className="text-[10px] font-bold text-slate-500 tracking-[0.12em] uppercase">Event</p>
                   <p className="font-bold text-slate-900 mt-1">Midwest Conference 2026</p>
                   <p className="text-slate-500 text-xs font-medium mt-0.5">Jul 30, 2026 — Aug 2, 2026</p>
                 </div>
 
                 <div className="mt-4 pt-4 border-t border-slate-100 text-sm">
-                  <p className="text-[10px] font-bold text-slate-500 tracking-[0.12em] uppercase">{t('ui.attendee')}</p>
+                  <p className="text-[10px] font-bold text-slate-500 tracking-[0.12em] uppercase">Attendee</p>
                   <p className="font-extrabold text-slate-900 mt-1">Test User</p>
-                  <p className="text-slate-500 text-xs font-medium">{t('ui.category')}: {t('data.ageRanges.adult.label')}</p>
-                  <p className="text-slate-500 text-xs font-medium">{t('data.attendanceTypes.full.label')} (4 {t('ui.days')})</p>
+                  <p className="text-slate-500 text-xs font-medium">Category: Adult</p>
+                  <p className="text-slate-500 text-xs font-medium">Full Conference (4 days)</p>
                 </div>
 
                 <div className="mt-4 pt-4 border-t border-slate-100 text-sm">
-                  <p className="text-[10px] font-bold text-slate-500 tracking-[0.12em] uppercase">{t('ui.pricing')}</p>
-                  <p className="font-bold text-slate-900 mt-1">{t('data.attendanceTypes.full.label')} — {t('data.ageRanges.adult.label')}</p>
+                  <p className="text-[10px] font-bold text-slate-500 tracking-[0.12em] uppercase">Pricing</p>
+                  <p className="font-bold text-slate-900 mt-1">Full Conference — Adult</p>
                   <p className="text-slate-500 text-xs font-medium mt-0.5 leading-relaxed">Full conference (adult): 3 night(s) × $40.00/night (3 chargeable night(s), Sunday excluded): $120.00</p>
-                  <p className="text-emerald-600 text-xs font-semibold mt-2">{t('ui.infantLodgingNotice')}</p>
+                  <p className="text-emerald-600 text-xs font-semibold mt-2">Sharing bed with parent — lodging free</p>
                 </div>
 
                 <div className="mt-4 pt-4 border-t border-slate-100 text-sm">
                   <p className="text-[10px] font-bold text-amber-700 tracking-[0.12em] uppercase flex items-center gap-1">
-                    <Utensils className="w-3 h-3" /> {t('ui.purchasedMeals')}
+                    <Utensils className="w-3 h-3" /> Purchased Meals
                   </p>
-                  <p className="text-amber-700 font-bold mt-1">9 {t('data.meals.meal')}(s) {t('ui.purchased')} — $108.00</p>
+                  <p className="text-amber-700 font-bold mt-1">9 meal(s) purchased — $108.00</p>
                 </div>
 
                 <div className="mt-4 pt-4 border-t border-slate-100 text-sm flex items-center gap-2">
                   <Shirt className="w-4 h-4 text-slate-500" />
                   <div>
-                    <p className="text-[10px] font-bold text-slate-500 tracking-[0.12em] uppercase">{t('ui.tShirtSize')}</p>
+                    <p className="text-[10px] font-bold text-slate-500 tracking-[0.12em] uppercase">T-Shirt Size</p>
                     <p className="font-bold text-slate-900 mt-0.5">L</p>
                   </div>
                 </div>
 
                 <div className="mt-5 p-4 rounded-xl bg-slate-50 border border-slate-200 text-center">
-                  <p className="text-xs text-slate-500 font-medium">{t('ui.amountPaid')}</p>
+                  <p className="text-xs text-slate-500 font-medium">Amount Paid</p>
                   <p className="text-3xl font-black text-amber-700 mt-1 tracking-tight">$234.91</p>
-                  <p className="text-[10px] text-slate-500 font-medium mt-1">{t('ui.includesProcessingFee')}</p>
-                  <p className="text-[10px] text-slate-500 font-medium">{t('ui.paymentCompletedStripe')}</p>
+                  <p className="text-[10px] text-slate-500 font-medium mt-1">Includes $6.91 processing fee</p>
+                  <p className="text-[10px] text-slate-500 font-medium">Payment: completed via Stripe</p>
                 </div>
 
-                <p className="text-center text-[11px] text-slate-400 font-medium mt-4">{t('ui.registeredOnPrefix')} Apr 12, 2026 {t('ui.at')} 12:05 AM</p>
+                <p className="text-center text-[11px] text-slate-400 font-medium mt-4">Registered on Apr 12, 2026 at 12:05 AM</p>
 
                 <div className="grid grid-cols-2 gap-2 mt-5">
                   <button type="button" className="flex items-center justify-center gap-1.5 bg-white border border-slate-200 rounded-lg px-3 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50">
-                    <CreditCard className="w-3.5 h-3.5" /> {t('ui.printDownload')}
+                    <CreditCard className="w-3.5 h-3.5" /> Print / Download
                   </button>
                   <button type="button" className="flex items-center justify-center gap-1.5 bg-white border border-slate-200 rounded-lg px-3 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50">
-                    <Mail className="w-3.5 h-3.5" /> {t('ui.emailReceipt')}
+                    <Mail className="w-3.5 h-3.5" /> Email Receipt
                   </button>
                 </div>
               </div>
@@ -2342,35 +2320,35 @@ export default function FellowFlowTutorial() {
                         <p className="font-bold text-white text-[9px]">Midwest 2026</p>
                       </div>
                       <div className="text-right">
-                        <p className="text-[6px] opacity-70">{t('ui.event')}</p>
+                        <p className="text-[6px] opacity-70">EVENT</p>
                         <p className="font-semibold text-[7px]">Jul 30 - Aug 2</p>
                       </div>
                     </div>
                     <div className="mt-2 text-white">
-                      <p className="text-[6px] opacity-70">{t('ui.registrant')}</p>
+                      <p className="text-[6px] opacity-70">REGISTRANT</p>
                       <p className="font-bold text-[9px]">Test-02 User-02</p>
                     </div>
                     <div className="mt-1.5 grid grid-cols-2 gap-1 text-white text-[6px]">
                       <div>
-                        <p className="opacity-70">{t('ui.confirmation')}</p>
+                        <p className="opacity-70">CONFIRMATION</p>
                         <p className="font-semibold text-[7px]">MW26-TU-15382</p>
                       </div>
                       <div>
-                        <p className="opacity-70">{t('ui.validFor')}</p>
+                        <p className="opacity-70">VALID FOR</p>
                         <p className="font-semibold text-[7px]">Jul 31 - Aug 2, 2026</p>
                       </div>
                     </div>
                     <div className="mt-1.5 grid grid-cols-3 gap-1 text-white text-[6px]">
                       <div>
-                        <p className="opacity-70">{t('ui.type')}</p>
+                        <p className="opacity-70">TYPE</p>
                         <p className="font-semibold text-[7px]">PARTIAL</p>
                       </div>
                       <div>
-                        <p className="opacity-70">{t('ui.lodging')}</p>
+                        <p className="opacity-70">LODGING</p>
                         <p className="font-semibold text-[7px]">Heavenly Sunshine HSD-Main</p>
                       </div>
                       <div>
-                        <p className="opacity-70">{t('ui.meals')}</p>
+                        <p className="opacity-70">MEALS</p>
                         <p className="font-semibold text-[7px]">8 Purchased</p>
                       </div>
                     </div>
@@ -2379,37 +2357,37 @@ export default function FellowFlowTutorial() {
                   </div>
                 </div>
 
-                <h2 className="text-3xl font-bold text-white mt-7 text-center">Midwest 2026 {t('ui.checkInBadge')}</h2>
+                <h2 className="text-3xl font-bold text-white mt-7 text-center">Midwest 2026 Check-in Badge</h2>
 
                 <button type="button" className="mt-6 w-full bg-white/10 text-[#ff453a] font-semibold py-4 rounded-xl text-base">
-                  {t('ui.removePass')}
+                  Remove Pass
                 </button>
 
                 {/* Details section */}
                 <div className="mt-4 bg-white/10 rounded-2xl overflow-hidden">
                   <div className={`p-4 transition-all ${formState.focus === 'buy_meals_link' ? 'bg-emerald-500/10 ring-2 ring-emerald-400 rounded-2xl' : ''}`}>
                     <p className="text-xs font-bold text-white/80 tracking-wide flex items-center gap-1.5">
-                      <Utensils className="w-3.5 h-3.5" /> {t('ui.buyMealsTapLink')}
+                      <Utensils className="w-3.5 h-3.5" /> BUY MEALS — TAP LINK BELOW
                     </p>
                     <a className={`block text-[#0a84ff] font-semibold text-base mt-1 ${formState.focus === 'buy_meals_link' ? 'underline' : ''}`}>
-                      {t('ui.tapToPurchaseMealsPrompt')}
+                      Tap here to purchase meals
                     </a>
                   </div>
                   <div className="border-t border-white/10 p-4 flex justify-between items-center">
-                    <p className="text-xs font-bold text-white/80 tracking-wide">{t('ui.confirmationCode')}</p>
+                    <p className="text-xs font-bold text-white/80 tracking-wide">CONFIRMATION CODE</p>
                     <p className="text-white/60 font-semibold text-sm">MW26-TU-15382</p>
                   </div>
                   <div className="border-t border-white/10 p-4 flex justify-between items-center">
-                    <p className="text-xs font-bold text-white/80 tracking-wide">{t('ui.ticketType')}</p>
+                    <p className="text-xs font-bold text-white/80 tracking-wide">TICKET TYPE</p>
                     <p className="text-white/60 font-semibold text-sm">PARTIAL</p>
                   </div>
                   <div className="border-t border-white/10 p-4 flex justify-between items-center">
-                    <p className="text-xs font-bold text-white/80 tracking-wide">{t('ui.yourDates')}</p>
+                    <p className="text-xs font-bold text-white/80 tracking-wide">YOUR DATES</p>
                     <p className="text-white/60 font-semibold text-sm underline">Jul 31 - Aug 2, 2026</p>
                   </div>
                   <div className="border-t border-white/10 p-4">
-                    <p className="text-xs font-bold text-white/80 tracking-wide">{t('ui.notice')}</p>
-                    <p className="text-white/60 text-sm mt-1 leading-relaxed">{t('ui.presentQrCodeNotice')}</p>
+                    <p className="text-xs font-bold text-white/80 tracking-wide">NOTICE</p>
+                    <p className="text-white/60 text-sm mt-1 leading-relaxed">Present your QR code at check-in and meal service stations.</p>
                   </div>
                 </div>
               </div>
@@ -2424,61 +2402,61 @@ export default function FellowFlowTutorial() {
                 <div className="bg-white rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.06)] border border-slate-100 overflow-hidden">
                   <div className="bg-gradient-to-r from-slate-100 to-slate-50 border-b border-slate-200 px-6 py-3 flex items-center gap-2">
                     <Mail className="w-4 h-4 text-slate-500" />
-                    <span className="text-xs font-bold text-slate-600">{t('ui.inbox')}</span>
+                    <span className="text-xs font-bold text-slate-600">Inbox</span>
                     <span className="ml-auto text-[10px] text-slate-400 font-medium">Apr 12, 2026</span>
                   </div>
                   <div className="p-6">
-                    <p className="text-xs text-slate-500 font-semibold">{t('ui.from')}: <span className="text-slate-700">no-reply@fellowflow.online</span></p>
-                    <p className="text-xs text-slate-500 font-semibold mt-0.5">{t('ui.to')}: <span className="text-slate-700">{formState.contact.email || 'test@fellowflow.com'}</span></p>
+                    <p className="text-xs text-slate-500 font-semibold">From: <span className="text-slate-700">no-reply@fellowflow.online</span></p>
+                    <p className="text-xs text-slate-500 font-semibold mt-0.5">To: <span className="text-slate-700">{formState.contact.email || 'test@fellowflow.com'}</span></p>
                     <h2 className="text-xl font-extrabold text-slate-900 mt-3 tracking-tight">
-                      {t('ui.emailSubject')}
+                      Your Midwest Conference 2026 Registration Confirmation
                     </h2>
                     <div className="mt-4 p-4 rounded-xl bg-emerald-50 border border-emerald-200">
                       <p className="text-sm font-bold text-emerald-800 flex items-center gap-2">
-                        <Check className="w-4 h-4" strokeWidth={3} /> {t('ui.statusConfirmed')}
+                        <Check className="w-4 h-4" strokeWidth={3} /> Registration Confirmed
                       </p>
-                      <p className="text-xs text-emerald-700 mt-1 font-medium">{t('ui.confirmationId')}: <span className="font-bold">MW26-TU-58170</span></p>
+                      <p className="text-xs text-emerald-700 mt-1 font-medium">Confirmation ID: <span className="font-bold">MW26-TU-58170</span></p>
                     </div>
                     <p className="text-sm text-slate-700 mt-5 font-medium leading-relaxed">
-                      {t('ui.greetingPrefix')} {formState.contact.firstName || 'Test User'}, {t('ui.emailThankYou')} <span className="font-bold">3 {t('ui.pdfBadge')}s</span> {t('ui.attachmentsNotice')}
+                      Hi Test User, thank you for registering! Your confirmation details and <span className="font-bold">3 PDF Registration Badges</span> are attached below — one for each registrant in your group.
                     </p>
 
                     <div className="mt-5 space-y-2">
-                      <p className="text-[11px] font-bold text-slate-500 tracking-[0.12em] uppercase">{t('ui.paymentSummary')}</p>
+                      <p className="text-[11px] font-bold text-slate-500 tracking-[0.12em] uppercase">Payment Summary</p>
                       <div className="flex justify-between text-sm">
-                        <span className="text-slate-600 font-medium">{t('ui.subtotalRegistrants')}</span>
+                        <span className="text-slate-600 font-medium">Subtotal (3 registrants)</span>
                         <span className="font-bold text-slate-900">$60.00</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-amber-700 font-medium">{t('ui.mealsLabel')}</span>
+                        <span className="text-amber-700 font-medium">Meals</span>
                         <span className="font-bold text-amber-700">+$132.00</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-slate-500 font-medium">{t('ui.processingFee')}</span>
+                        <span className="text-slate-500 font-medium">Processing Fee</span>
                         <span className="font-semibold text-slate-500">+$5.87</span>
                       </div>
                       <div className="flex justify-between text-sm pt-2 border-t border-slate-100">
-                        <span className="font-extrabold text-slate-900">{t('ui.totalAmount')}</span>
+                        <span className="font-extrabold text-slate-900">Total</span>
                         <span className="font-black text-slate-900">$197.87</span>
                       </div>
                     </div>
 
-                    <p className="text-[11px] font-bold text-slate-500 tracking-[0.12em] uppercase mt-6 mb-2">{t('ui.attachmentsCount')}</p>
+                    <p className="text-[11px] font-bold text-slate-500 tracking-[0.12em] uppercase mt-6 mb-2">Attachments (3)</p>
                     <div className="space-y-2">
                       {['Test Test', 'Child Child', 'Infant Infant'].map((name, i) => (
                         <div key={name} className="flex items-center gap-3 p-3 rounded-lg border border-slate-200 bg-slate-50">
                           <div className="w-9 h-11 rounded bg-white border border-slate-300 flex items-center justify-center text-[9px] font-black text-red-600">PDF</div>
                           <div className="flex-1 min-w-0">
-                            <p className="text-sm font-bold text-slate-900 truncate">{t('ui.badgePrefix')}{name.replace(' ', '-')}.pdf</p>
-                            <p className="text-[11px] text-slate-500 font-medium">{t('ui.registrantBadge')} · 128 KB</p>
+                            <p className="text-sm font-bold text-slate-900 truncate">Badge-{name.replace(' ', '-')}.pdf</p>
+                            <p className="text-[11px] text-slate-500 font-medium">Registration badge · 128 KB</p>
                           </div>
-                          <button type="button" className="text-[#0a2540] text-xs font-bold">{t('ui.download')}</button>
+                          <button type="button" className="text-[#0a2540] text-xs font-bold">Download</button>
                         </div>
                       ))}
                     </div>
 
                     <p className="text-xs text-slate-500 mt-6 font-medium leading-relaxed">
-                      {t('ui.printBadgesReadyNotice')}
+                      Print these badges out or keep them on your phone. Have them ready at the campus upon check-in to easily access all your services.
                     </p>
                   </div>
                 </div>
@@ -2486,15 +2464,15 @@ export default function FellowFlowTutorial() {
                 {/* Right: PDF badge preview + printed badge photo */}
                 <div className="space-y-6 lg:sticky lg:top-10">
                   <div>
-                    <p className="text-[11px] font-bold text-slate-500 tracking-[0.12em] uppercase mb-2">{t('ui.pdfRegistrationBadge')}</p>
+                    <p className="text-[11px] font-bold text-slate-500 tracking-[0.12em] uppercase mb-2">PDF Registration Badge</p>
                     <div className="rounded-2xl overflow-hidden shadow-2xl border border-slate-200">
-                      <img src="/Email-Badg-and-Other/confirmation.png" alt={`PDF Badge — ${formState.contact.firstName || 'Test'} ${formState.contact.lastName || 'User'}`} className="w-full h-auto block" />
+                      <img src="/Email-Badg-and-Other/confirmation.png" alt="PDF Badge — Test User" className="w-full h-auto block" />
                     </div>
                   </div>
 
                   <div className={`transition-all duration-500 ${formState.focus === 'printed_badge' ? 'scale-[1.02]' : ''}`}>
                     <p className="text-[11px] font-bold text-slate-500 tracking-[0.12em] uppercase mb-2">
-                      {t('ui.printedReadyAtCheckIn')}
+                      Printed & ready at check-in
                     </p>
                     <div className={`grid grid-cols-2 gap-3 p-3 rounded-2xl transition-all ${formState.focus === 'printed_badge' ? 'bg-emerald-50 ring-2 ring-emerald-400' : 'bg-white border border-slate-200'}`}>
                       <div className="rounded-xl overflow-hidden shadow-lg">
@@ -2505,7 +2483,7 @@ export default function FellowFlowTutorial() {
                       </div>
                     </div>
                     <p className="text-[11px] text-slate-500 font-medium text-center mt-3 leading-relaxed">
-                      {t('ui.printBadgeReady')}
+                      Print the PDF or keep it on your phone — show the QR at check-in and meal stations.
                     </p>
                   </div>
                 </div>
@@ -2518,17 +2496,17 @@ export default function FellowFlowTutorial() {
             <div className="min-h-screen w-full bg-slate-50 px-6 py-10 md:py-16 pb-40">
               <div className="max-w-5xl mx-auto text-center">
                 <div className="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-800 px-3 py-1 rounded-full text-xs font-bold">
-                  <Utensils className="w-3.5 h-3.5" /> {t('ui.needMealsPrompt')}
+                  <Utensils className="w-3.5 h-3.5" /> Need meals during the conference?
                 </div>
-                <h2 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight mt-4">{t('ui.twoWaysReachMealTickets')}</h2>
-                <p className="text-slate-500 mt-2 text-sm md:text-base font-medium max-w-xl mx-auto">{t('ui.bothPathsTakeYouDesc')}</p>
+                <h2 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight mt-4">Two ways to reach your Meal Tickets page</h2>
+                <p className="text-slate-500 mt-2 text-sm md:text-base font-medium max-w-xl mx-auto">Both paths take you to the same personal page where you can purchase additional meals anytime.</p>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-10 items-start">
                   {/* Option 1: Badge QR */}
                   <div className={`bg-white rounded-2xl border p-5 transition-all duration-500 ${formState.focus === 'meal_access_points' ? 'ring-2 ring-emerald-400 border-emerald-200 shadow-xl' : 'border-slate-200 shadow'}`}>
                     <div className="flex items-center gap-2 mb-3">
                       <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-emerald-500 text-white text-xs font-black">1</span>
-                      <span className="text-[10px] font-bold text-slate-500 tracking-[0.12em] uppercase">{t('ui.onYourBadge')}</span>
+                      <span className="text-[10px] font-bold text-slate-500 tracking-[0.12em] uppercase">On your badge</span>
                     </div>
                     <div className="rounded-xl overflow-hidden shadow-lg relative">
                       <img src="/Email-Badg-and-Other/email-3.jpeg" alt="Printed badge with Buy Meals QR" className="w-full h-auto block" />
@@ -2537,36 +2515,36 @@ export default function FellowFlowTutorial() {
                         <div className="absolute right-[6%] bottom-[10%] w-[22%] aspect-square rounded-lg ring-4 ring-emerald-400 shadow-[0_0_0_6px_rgba(16,185,129,0.25)] animate-pulse pointer-events-none" />
                       )}
                     </div>
-                    <p className="text-sm font-semibold text-slate-900 mt-3">{t('ui.scanBuyMealsQr')}</p>
-                    <p className="text-xs text-slate-500 mt-1 font-medium leading-relaxed">{t('ui.pointPhoneCameraDesc')}</p>
+                    <p className="text-sm font-semibold text-slate-900 mt-3">Scan the <span className="text-emerald-600">Buy Meals</span> QR</p>
+                    <p className="text-xs text-slate-500 mt-1 font-medium leading-relaxed">Point your phone camera at the small QR on the lower-right of your printed badge.</p>
                   </div>
 
                   {/* Option 2: Receipt page */}
                   <div className={`bg-white rounded-2xl border p-5 transition-all duration-500 ${formState.focus === 'meal_access_points' ? 'ring-2 ring-emerald-400 border-emerald-200 shadow-xl' : 'border-slate-200 shadow'}`}>
                     <div className="flex items-center gap-2 mb-3">
                       <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-emerald-500 text-white text-xs font-black">2</span>
-                      <span className="text-[10px] font-bold text-slate-500 tracking-[0.12em] uppercase">{t('ui.fromYourReceipt')}</span>
+                      <span className="text-[10px] font-bold text-slate-500 tracking-[0.12em] uppercase">From your receipt</span>
                     </div>
                     <div className="rounded-xl bg-slate-50 border border-slate-200 p-5 text-left">
                       <div className="flex items-center justify-between text-xs text-slate-600 font-medium">
-                        <span>{t('form.shirtSize')}</span>
+                        <span>T-Shirt Size</span>
                         <span className="font-bold text-slate-900">XL</span>
                       </div>
                       <button type="button" className="mt-5 w-full py-3 rounded-full bg-gradient-to-r from-[#3c82f6] to-[#6366f1] text-white font-bold text-sm flex items-center justify-center gap-2">
-                        {t('ui.viewFullReceipt')} <ArrowRight className="w-4 h-4" />
+                        View Full Receipt <ArrowRight className="w-4 h-4" />
                       </button>
                       <p className="text-xs text-amber-700 font-bold mt-6 flex items-center justify-center gap-1.5">
-                        <Utensils className="w-3.5 h-3.5" /> {t('ui.needMealsPrompt')}
+                        <Utensils className="w-3.5 h-3.5" /> Need meals during the conference?
                       </p>
                       <button
                         type="button"
                         className={`mt-2 w-full py-3 rounded-full bg-[#e58a2e] text-white font-bold text-sm transition-all ${formState.focus === 'meal_access_points' ? 'shadow-[0_0_0_4px_rgba(16,185,129,0.45)] scale-[1.03]' : ''}`}
                       >
-                        {t('ui.purchaseMealTicketsBtn')}
+                        Purchase Meal Tickets
                       </button>
                     </div>
-                    <p className="text-sm font-semibold text-slate-900 mt-4">{t('ui.purchaseMealTicketsBtn')}</p>
-                    <p className="text-xs text-slate-500 mt-1 font-medium leading-relaxed">{t('ui.tapToPurchaseMealsDesc')}</p>
+                    <p className="text-sm font-semibold text-slate-900 mt-4">Tap <span className="text-amber-700">Purchase Meal Tickets</span></p>
+                    <p className="text-xs text-slate-500 mt-1 font-medium leading-relaxed">Scroll to the bottom of your registration receipt and tap the orange button.</p>
                   </div>
                 </div>
               </div>
@@ -2585,34 +2563,34 @@ export default function FellowFlowTutorial() {
             const newlyPurchasedIds = new Set(['fri-breakfast', 'fri-lunch', 'thu-dinner'])
             const days = [
               {
-                label: t('ui.days.thu'),
+                label: 'THU, JUL 30',
                 meals: [
-                    { id: 'thu-dinner', icon: '🌙', name: t('ui.dinner'), time: '5:30 PM', state: 'available' },
-                  ],
-                },
-                {
-                  label: t('ui.days.fri'),
-                  meals: [
-                    { id: 'fri-breakfast', icon: '☕', name: t('ui.breakfast'), time: '8:30 AM', state: 'available' },
-                    { id: 'fri-lunch', icon: '☀️', name: t('ui.lunch'), time: '12:00 PM', state: 'available' },
-                    { id: 'fri-dinner', icon: '🌙', name: t('ui.dinner'), time: '5:30 PM', state: 'purchased' },
-                  ],
-                },
-                {
-                  label: t('ui.days.sat'),
-                  meals: [
-                    { id: 'sat-breakfast', icon: '☕', name: t('ui.breakfast'), time: '8:30 AM', state: 'purchased' },
-                    { id: 'sat-lunch', icon: '☀️', name: t('ui.lunch'), time: '12:00 PM', state: 'purchased' },
-                    { id: 'sat-dinner', icon: '🌙', name: t('ui.dinner'), time: '5:30 PM', state: 'purchased' },
-                  ],
-                },
-                {
-                  label: t('ui.days.sun'),
-                  meals: [
-                    { id: 'sun-breakfast', icon: '☕', name: t('ui.breakfast'), time: '8:30 AM', state: 'purchased' },
-                    { id: 'sun-lunch', icon: '☀️', name: t('ui.lunch'), time: '12:00 PM', state: 'purchased' },
-                  ],
-                },
+                  { id: 'thu-dinner', icon: '🌙', name: 'Dinner', time: '5:30 PM', state: 'available' },
+                ],
+              },
+              {
+                label: 'FRI, JUL 31',
+                meals: [
+                  { id: 'fri-breakfast', icon: '☕', name: 'Breakfast', time: '8:30 AM', state: 'available' },
+                  { id: 'fri-lunch', icon: '☀️', name: 'Lunch', time: '12:00 PM', state: 'available' },
+                  { id: 'fri-dinner', icon: '🌙', name: 'Dinner', time: '5:30 PM', state: 'purchased' },
+                ],
+              },
+              {
+                label: 'SAT, AUG 1',
+                meals: [
+                  { id: 'sat-breakfast', icon: '☕', name: 'Breakfast', time: '8:30 AM', state: 'purchased' },
+                  { id: 'sat-lunch', icon: '☀️', name: 'Lunch', time: '12:00 PM', state: 'purchased' },
+                  { id: 'sat-dinner', icon: '🌙', name: 'Dinner', time: '5:30 PM', state: 'purchased' },
+                ],
+              },
+              {
+                label: 'SUN, AUG 2',
+                meals: [
+                  { id: 'sun-breakfast', icon: '☕', name: 'Breakfast', time: '8:30 AM', state: 'purchased' },
+                  { id: 'sun-lunch', icon: '☀️', name: 'Lunch', time: '12:00 PM', state: 'purchased' },
+                ],
+              },
             ]
             return (
               <div className="min-h-screen w-full bg-[#faf7f2] px-4 py-8 md:py-12 pb-40">
@@ -2622,8 +2600,8 @@ export default function FellowFlowTutorial() {
                       <Check className="w-5 h-5 text-white" strokeWidth={3} />
                     </div>
                     <div className="flex-1 text-left">
-                      <p className="font-extrabold text-emerald-800 text-sm">{t('ui.paymentSuccessfulBadgeUpdated')}</p>
-                      <p className="text-xs text-emerald-700 font-medium">{t('ui.newMealsActiveOnQr')}</p>
+                      <p className="font-extrabold text-emerald-800 text-sm">Payment successful — badge updated!</p>
+                      <p className="text-xs text-emerald-700 font-medium">3 new meals are now active on your QR.</p>
                     </div>
                   </div>
                 )}
@@ -2634,19 +2612,19 @@ export default function FellowFlowTutorial() {
                     <div className="w-12 h-12 rounded-2xl bg-amber-100 mx-auto flex items-center justify-center">
                       <Utensils className="w-6 h-6 text-amber-600" />
                     </div>
-                    <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight mt-3">{t('ui.mealTicketsTitle')}</h2>
-                    <p className="text-slate-500 text-xs font-medium mt-0.5">{t('ui.conferenceTitleLong')}</p>
+                    <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight mt-3">Meal Tickets</h2>
+                    <p className="text-slate-500 text-xs font-medium mt-0.5">Midwest Conference 2026</p>
                   </div>
 
                   {/* User card */}
                   <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-4 flex items-start justify-between">
                     <div>
                       <p className="font-bold text-slate-900 text-sm">Test-02 User-02</p>
-                      <p className="text-xs text-slate-500 font-medium">{t('ui.registrationTypes.partialAdult')}</p>
+                      <p className="text-xs text-slate-500 font-medium">Partial · Adult</p>
                     </div>
                     <div className="text-right">
                       <p className="text-xs text-slate-500 font-mono">MW26-TU-15382</p>
-                      <p className="text-sm font-extrabold text-slate-900">${pricePerMeal.toFixed(2)}<span className="text-xs font-semibold text-slate-500">/{t('ui.mealLabel')}</span></p>
+                      <p className="text-sm font-extrabold text-slate-900">${pricePerMeal.toFixed(2)}<span className="text-xs font-semibold text-slate-500">/meal</span></p>
                     </div>
                   </div>
 
@@ -2654,25 +2632,25 @@ export default function FellowFlowTutorial() {
                   <div className={`grid grid-cols-3 gap-2 mt-3 transition-all duration-500 ${formState.focus === 'meal_stats' ? 'ring-4 ring-emerald-400 ring-offset-2 rounded-xl' : ''}`}>
                     <div className="bg-white rounded-xl border border-slate-200 p-4 text-center">
                       <p className="text-2xl font-black text-emerald-600">{purchased}</p>
-                      <p className="text-[10px] font-bold text-slate-500 tracking-[0.12em] uppercase mt-0.5">{t('ui.mealStatusPurchased')}</p>
+                      <p className="text-[10px] font-bold text-slate-500 tracking-[0.12em] uppercase mt-0.5">Purchased</p>
                     </div>
                     <div className="bg-white rounded-xl border border-slate-200 p-4 text-center">
                       <p className="text-2xl font-black text-amber-600">{available}</p>
-                      <p className="text-[10px] font-bold text-slate-500 tracking-[0.12em] uppercase mt-0.5">{t('ui.available')}</p>
+                      <p className="text-[10px] font-bold text-slate-500 tracking-[0.12em] uppercase mt-0.5">Available</p>
                     </div>
                     <div className={`bg-white rounded-xl border p-4 text-center transition-all duration-500 ${selected > 0 ? 'border-slate-400 shadow-md' : 'border-slate-200'}`}>
                       <p className={`text-2xl font-black transition-all duration-500 ${selected > 0 ? 'text-slate-900 scale-110' : 'text-slate-400'}`}>{selected}</p>
-                      <p className="text-[10px] font-bold text-slate-500 tracking-[0.12em] uppercase mt-0.5">{t('ui.selected')}</p>
+                      <p className="text-[10px] font-bold text-slate-500 tracking-[0.12em] uppercase mt-0.5">Selected</p>
                     </div>
                   </div>
 
                   {/* Controls */}
                   <div className="flex items-center gap-2 mt-4">
                     <button type="button" className="px-3 py-1.5 border border-slate-300 bg-white rounded-full text-xs font-semibold text-slate-700 hover:bg-slate-50">
-                      {t('ui.selectAllAvailable')} ({available})
+                      Select All Available ({available})
                     </button>
                     {selected > 0 && (
-                      <button type="button" className="text-xs font-semibold text-slate-500 hover:text-slate-700">{t('ui.clear')}</button>
+                      <button type="button" className="text-xs font-semibold text-slate-500 hover:text-slate-700">Clear</button>
                     )}
                   </div>
 
@@ -2707,7 +2685,7 @@ export default function FellowFlowTutorial() {
                                   <p className="text-[11px] text-slate-500 font-medium">{meal.time}</p>
                                 </div>
                                 {isPurchased ? (
-                                  <span className="text-xs font-bold text-emerald-600">{t('ui.mealStatusPurchased')}</span>
+                                  <span className="text-xs font-bold text-emerald-600">Purchased</span>
                                 ) : (
                                   <>
                                     <span className="text-sm font-bold text-slate-900">${pricePerMeal.toFixed(2)}</span>
@@ -2731,35 +2709,35 @@ export default function FellowFlowTutorial() {
                     <div className={`mt-6 bg-white border rounded-2xl p-4 transition-all duration-500 ${formState.focus === 'meal_select' ? 'border-emerald-400 shadow-[0_10px_30px_rgba(16,185,129,0.25)] ring-2 ring-emerald-400' : 'border-slate-200 shadow'}`}>
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="font-bold text-slate-900 text-sm">{selected} {t('ui.mealsSelected')}</p>
+                          <p className="font-bold text-slate-900 text-sm">{selected} meals selected</p>
                           <p className="text-[11px] text-slate-500 font-medium">${pricePerMeal.toFixed(2)} × {selected}</p>
                         </div>
                         <p className="text-2xl font-black text-slate-900">${total.toFixed(2)}</p>
                       </div>
                       <button type="button" className="w-full mt-3 py-3 rounded-xl bg-[#0a2540] text-white font-bold text-sm flex items-center justify-center gap-2 hover:bg-[#153b61]">
-                        <CreditCard className="w-4 h-4" /> {t('ui.payAmountWithCard', { total: total.toFixed(2) })}
+                        <CreditCard className="w-4 h-4" /> Pay ${total.toFixed(2)} with Card
                       </button>
                     </div>
                   )}
 
                   {/* Purchase history */}
                   <div className="mt-6">
-                    <p className="text-[10px] font-bold text-slate-500 tracking-[0.12em] uppercase mb-2">{t('ui.purchaseHistory')}</p>
+                    <p className="text-[10px] font-bold text-slate-500 tracking-[0.12em] uppercase mb-2">Purchase History</p>
                     <div className="bg-white rounded-xl border border-slate-200 p-4 flex items-center justify-between">
                       <div>
-                        <p className="text-sm font-bold text-slate-900">{isPostPurchase ? `3 ${t('ui.mealsLabel')}` : `2 ${t('ui.mealsLabel')}`}</p>
-                        <p className="text-[11px] text-slate-500 font-medium">{t('ui.cardOnline')} · {isPostPurchase ? t('ui.justNow') : 'Jul 15, 2:30 PM'}</p>
+                        <p className="text-sm font-bold text-slate-900">{isPostPurchase ? '3 meals' : '2 meals'}</p>
+                        <p className="text-[11px] text-slate-500 font-medium">Card (online) · {isPostPurchase ? 'Just now' : 'Jul 15, 2:30 PM'}</p>
                       </div>
                       <div className="text-right">
                         <p className="text-sm font-black text-slate-900">${(isPostPurchase ? 36 : 30).toFixed(2)}</p>
-                        <p className="text-[10px] font-bold text-emerald-600">{t('ui.completed')}</p>
+                        <p className="text-[10px] font-bold text-emerald-600">COMPLETED</p>
                       </div>
                     </div>
                   </div>
 
                   <div className="text-center mt-5">
                     <button type="button" className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-slate-700">
-                      <RotateCcw className="w-3 h-3" /> {t('ui.refresh')}
+                      <RotateCcw className="w-3 h-3" /> Refresh
                     </button>
                   </div>
                 </div>
@@ -2776,9 +2754,9 @@ export default function FellowFlowTutorial() {
                   <button type="button" className="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center">
                     <ArrowRight className="w-4 h-4 rotate-180 text-white" />
                   </button>
-                  <span className="bg-slate-900 text-white px-2.5 py-1 rounded text-[10px] font-bold">{t('ui.sandbox')}</span>
+                  <span className="bg-slate-900 text-white px-2.5 py-1 rounded text-[10px] font-bold">Sandbox</span>
                 </div>
-                <p className="text-sm font-semibold text-white/80">{t('ui.payFellowFlowSandbox')}</p>
+                <p className="text-sm font-semibold text-white/80">Pay FellowFlow sandbox</p>
                 <p className="text-4xl md:text-5xl font-black text-white tracking-tight mt-1">US$37.00</p>
                 <div className="mt-10 space-y-5 text-sm">
                   <div className="flex justify-between items-start gap-4 border-t border-white/20 pt-4">
@@ -2804,8 +2782,8 @@ export default function FellowFlowTutorial() {
                   </div>
                   <div className="flex justify-between items-start gap-4 border-t border-white/20 pt-4">
                     <div className="min-w-0">
-                      <p className="font-semibold text-white">{t('ui.processingFees')}</p>
-                      <p className="text-[11px] text-white/70 mt-0.5">{t('ui.processingFeeNotice')}</p>
+                      <p className="font-semibold text-white">Processing Fee</p>
+                      <p className="text-[11px] text-white/70 mt-0.5">Card processing fee</p>
                     </div>
                     <p className="font-semibold text-white shrink-0">US$1.00</p>
                   </div>
@@ -2814,23 +2792,23 @@ export default function FellowFlowTutorial() {
 
               {/* Right: payment form */}
               <div className="w-full lg:w-[54%] px-8 md:px-14 py-10 md:py-14">
-                <p className="text-sm font-bold text-slate-900 mb-2">{t('ui.contactInformation')}</p>
+                <p className="text-sm font-bold text-slate-900 mb-2">Contact information</p>
                 <div className="w-full h-11 bg-slate-50 border border-slate-200 rounded-md px-3 flex items-center text-sm text-slate-700 font-medium mb-6">
-                  <span className="text-slate-400 mr-2 w-14 shrink-0">{t('form.email')}</span>
+                  <span className="text-slate-400 mr-2 w-14 shrink-0">Email</span>
                   <span className="font-semibold">support@fellowflow.online</span>
                 </div>
-                <p className="text-sm font-bold text-slate-900 mb-3">{t('ui.paymentMethod')}</p>
+                <p className="text-sm font-bold text-slate-900 mb-3">Payment method</p>
                 <div className={`rounded-lg border ${formState.focus === 'meal_stripe' ? 'border-[#635BFF] ring-2 ring-[#635BFF]/30' : 'border-slate-300'} transition-all`}>
                   <div className="flex items-center gap-3 px-3.5 py-3 border-b border-slate-200">
                     <div className="w-4 h-4 rounded-full border-2 border-slate-900 flex items-center justify-center">
                       <div className="w-2 h-2 rounded-full bg-slate-900" />
                     </div>
                     <CreditCard className="w-4 h-4 text-slate-700" />
-                    <span className="text-sm font-semibold text-slate-900">{t('ui.card')}</span>
+                    <span className="text-sm font-semibold text-slate-900">Card</span>
                   </div>
                   <div className="p-3.5 space-y-2.5">
                     <div>
-                      <p className="text-xs font-bold text-slate-700 mb-1">{t('ui.cardInformation')}</p>
+                      <p className="text-xs font-bold text-slate-700 mb-1">Card information</p>
                       <div className="h-10 border border-slate-300 rounded-md px-3 flex items-center text-sm text-slate-400">1234 1234 1234 1234
                         <span className="ml-auto flex items-center gap-1">
                           <span className="text-[10px] font-bold text-[#1a1f71]">VISA</span>
@@ -2839,12 +2817,12 @@ export default function FellowFlowTutorial() {
                       </div>
                       <div className="grid grid-cols-2 gap-0 -mt-px">
                         <div className="h-10 border border-slate-300 rounded-bl-md px-3 flex items-center text-sm text-slate-400">MM / YY</div>
-                        <div className="h-10 border border-slate-300 border-l-0 rounded-br-md px-3 flex items-center text-sm text-slate-400 justify-between">{t('ui.cvc')} <span className="text-slate-300">💳</span></div>
+                        <div className="h-10 border border-slate-300 border-l-0 rounded-br-md px-3 flex items-center text-sm text-slate-400 justify-between">CVC <span className="text-slate-300">💳</span></div>
                       </div>
                     </div>
                     <div>
-                      <p className="text-xs font-bold text-slate-700 mb-1">{t('ui.cardholderName')}</p>
-                      <div className="h-10 border border-slate-300 rounded-md px-3 flex items-center text-sm text-slate-400">{t('ui.fullNameOnCard')}</div>
+                      <p className="text-xs font-bold text-slate-700 mb-1">Cardholder name</p>
+                      <div className="h-10 border border-slate-300 rounded-md px-3 flex items-center text-sm text-slate-400">Full name on card</div>
                     </div>
                     <div>
                       <p className="text-xs font-bold text-slate-700 mb-1">Country or region</p>
@@ -2911,32 +2889,32 @@ export default function FellowFlowTutorial() {
             {/* Eyebrow */}
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 text-white px-3.5 py-1.5 rounded-full text-[11px] font-bold tracking-[0.18em] uppercase shadow-lg">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              {t('ui.splash.interactiveTutorial')}
+              Interactive Tutorial
             </div>
 
             {/* Title */}
             <h1 className="mt-6 text-4xl md:text-6xl lg:text-[72px] font-black leading-[1.02] tracking-tight">
-              {t('ui.splash.title')},
+              Conference Registration,
               <br />
               <span className="bg-gradient-to-r from-emerald-300 via-teal-300 to-cyan-300 bg-clip-text text-transparent">
-                {t('ui.splash.subtitle')}
+                Made Effortless
               </span>
             </h1>
 
             {/* Subtitle */}
             <p className="mt-5 text-base md:text-lg text-white/75 font-medium leading-relaxed max-w-2xl mx-auto">
-              {t('ui.splash.description')}
+              A guided walkthrough of the complete FellowFlow flow — from hero page and dynamic registration to Stripe checkout, Apple Wallet badges, and meal top-ups.
             </p>
 
             {/* Stats row */}
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/15 rounded-full px-4 py-2">
                 <Play className="w-3.5 h-3.5 text-emerald-300 fill-emerald-300" />
-                <span className="text-xs font-bold text-white/90">{PHASES.length} {t('ui.splash.chapters')}</span>
+                <span className="text-xs font-bold text-white/90">{PHASES.length} chapters</span>
               </div>
               <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/15 rounded-full px-4 py-2">
                 <Sparkles className="w-3.5 h-3.5 text-indigo-300" />
-                <span className="text-xs font-bold text-white/90">~{Math.round(PHASES.reduce((a, p) => a + p.fallbackMs, 0) / 60000)} {t('ui.splash.minRuntime')}</span>
+                <span className="text-xs font-bold text-white/90">~{Math.round(PHASES.reduce((a, p) => a + p.fallbackMs, 0) / 60000)} min runtime</span>
               </div>
             </div>
 
@@ -2948,7 +2926,7 @@ export default function FellowFlowTutorial() {
                   type="button"
                   onClick={() => { setHasStarted(true); skipToPhase(i) }}
                   className="group text-[10px] font-bold uppercase tracking-wider bg-white/5 hover:bg-white/15 border border-white/10 hover:border-emerald-300/50 text-white/70 hover:text-white px-2.5 py-1.5 rounded-md transition-all"
-                  title={`${t('ui.splash.jumpToChapter')} ${i + 1}: ${phase.title}`}
+                  title={`Jump to Chapter ${i + 1}: ${phase.title}`}
                 >
                   <span className="opacity-50 mr-1">{String(i + 1).padStart(2, '0')}</span>{phase.title}
                 </button>
@@ -2996,19 +2974,19 @@ export default function FellowFlowTutorial() {
                 {isGeneratingAudio ? (
                   <>
                     <Loader2 className="w-5 h-5 animate-spin" />
-                    {t('ui.splash.preparingVoice')}
+                    Preparing voice...
                   </>
                 ) : (
                   <>
                     <div className="w-9 h-9 rounded-full bg-[#0a2540] text-white flex items-center justify-center shadow-inner">
                       <Play className="w-4 h-4 ml-0.5 fill-white" />
                     </div>
-                    {t('ui.splash.startTutorial')}
+                    Start the Tutorial
                   </>
                 )}
               </button>
               <p className="text-[11px] text-white/50 font-medium">
-                {t('ui.splash.footerHint')}
+                Or click any chapter above to jump in · Press the play/pause button anytime
               </p>
             </div>
           </div>
@@ -3023,7 +3001,7 @@ export default function FellowFlowTutorial() {
             type="button"
             onClick={() => skipToPhase(currentPhaseIdx - 1)}
             disabled={currentPhaseIdx === 0 || isGeneratingAudio}
-            title={t('ui.controlBar.previousChapter')}
+            title="Previous chapter"
             className="w-7 h-7 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 transition-all active:scale-95 flex-shrink-0 disabled:opacity-30 disabled:cursor-not-allowed"
           >
             <SkipBack className="w-3.5 h-3.5" />
@@ -3055,7 +3033,7 @@ export default function FellowFlowTutorial() {
             type="button"
             onClick={() => skipToPhase(currentPhaseIdx + 1)}
             disabled={currentPhaseIdx >= PHASES.length - 1 || isGeneratingAudio}
-            title={t('ui.controlBar.nextChapter')}
+            title="Next chapter"
             className="w-7 h-7 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 transition-all active:scale-95 flex-shrink-0 disabled:opacity-30 disabled:cursor-not-allowed"
           >
             <SkipForward className="w-3.5 h-3.5" />
@@ -3065,8 +3043,8 @@ export default function FellowFlowTutorial() {
             <div className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.14em] flex flex-wrap items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse hidden md:block shadow-[0_0_6px_rgba(239,68,68,0.6)]" />
               {isGeneratingAudio
-                ? `${t('ui.controlBar.generatingChapter')} ${currentPhaseIdx + 1}: ${PHASES[currentPhaseIdx].title}`
-                : `${t('ui.controlBar.chapterInfo').replace('{current}', currentPhaseIdx + 1).replace('{total}', PHASES.length).replace('{title}', PHASES[currentPhaseIdx].title)}`}
+                ? `Generating — Ch ${currentPhaseIdx + 1}: ${PHASES[currentPhaseIdx].title}`
+                : `Ch ${currentPhaseIdx + 1}/${PHASES.length} · ${PHASES[currentPhaseIdx].title}`}
             </div>
             {voiceError && geminiConfigured && (
               <p className="text-[10px] text-amber-700 font-medium truncate" title={voiceError}>
@@ -3088,7 +3066,7 @@ export default function FellowFlowTutorial() {
               <button
                 key={phase.id}
                 type="button"
-                title={`${t('ui.splash.jumpToChapter')} ${pi + 1}: ${phase.title}`}
+                title={`Chapter ${pi + 1}: ${phase.title}`}
                 onClick={() => skipToPhase(pi)}
                 className={`group relative flex flex-col items-center gap-1 px-2 py-1 rounded-lg transition-all duration-200 ${
                   isActive
@@ -3125,7 +3103,7 @@ export default function FellowFlowTutorial() {
         <button
           type="button"
           onClick={() => setViewMode((m) => (m === 'fullscreen' ? 'container' : 'fullscreen'))}
-          title={viewMode === 'fullscreen' ? t('ui.controlBar.exitFullScreen') : t('ui.controlBar.enterFullScreen')}
+          title={viewMode === 'fullscreen' ? 'Exit full screen' : 'Enter full screen'}
           className="w-7 h-7 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 transition-all active:scale-95 flex-shrink-0 ml-1"
         >
           {viewMode === 'fullscreen' ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
@@ -3142,7 +3120,7 @@ export default function FellowFlowTutorial() {
             <div className="w-8 h-8 rounded-lg bg-indigo-100 flex items-center justify-center">
               <Sparkles className="w-4 h-4 text-indigo-600" />
             </div>
-            {t('ui.chat.title')}
+            Event AI Assistant
           </div>
           <button
             type="button"
@@ -3189,7 +3167,7 @@ export default function FellowFlowTutorial() {
               type="text"
               value={chatInput}
               onChange={(e) => setChatInput(e.target.value)}
-              placeholder={t('ui.chat.placeholder')}
+              placeholder="Ask about the form logic..."
               className="w-full bg-slate-50 border border-slate-200 rounded-full pl-5 pr-12 py-3.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#21a560]/30 focus:border-[#21a560]/50 transition-all placeholder:text-slate-400 text-slate-800 shadow-inner"
             />
             <button
