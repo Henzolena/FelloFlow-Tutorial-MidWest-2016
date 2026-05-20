@@ -80,6 +80,7 @@ export default function FellowFlowTutorial() {
 
   const [isGeneratingAudio, setIsGeneratingAudio] = useState(false)
   const [voiceError, setVoiceError] = useState(null)
+  const [audioLang, setAudioLang] = useState('en') // 'en' | 'am'
   const [isChatOpen, setIsChatOpen] = useState(false)
   const [chatMessages, setChatMessages] = useState([
     {
@@ -519,23 +520,25 @@ export default function FellowFlowTutorial() {
 
   // Use the pre-recorded audioFile URL directly; fall back to Gemini TTS only if absent.
   const resolvePhaseAudio = async (phase) => {
-    const cached = phaseSourcesRef.current[phase.id]
+    const cacheKey = `${audioLang}:${phase.id}`
+    const cached = phaseSourcesRef.current[cacheKey]
     if (cached) return cached
 
-    // 1. Use the pre-recorded URL directly (skip HEAD check — CDNs often reject it)
-    if (phase.audioFile) {
-      phaseSourcesRef.current[phase.id] = phase.audioFile
-      return phase.audioFile
+    // 1. Use the pre-recorded URL for the active language
+    const url = audioLang === 'am' ? (phase.audioFileAm || phase.audioFile) : phase.audioFile
+    if (url) {
+      phaseSourcesRef.current[cacheKey] = url
+      return url
     }
 
-    // 2. Fall back to live TTS generation
+    // 2. Fall back to live TTS generation (English only)
     if (!hasGeminiApiKey()) return null
     const { blobUrl, error } = await generateTtsWavObjectUrl(phase.script)
     if (error || !blobUrl) {
       setVoiceError(error || 'Voice generation failed')
       return null
     }
-    phaseSourcesRef.current[phase.id] = blobUrl
+    phaseSourcesRef.current[cacheKey] = blobUrl
     return blobUrl
   }
 
@@ -2932,6 +2935,35 @@ export default function FellowFlowTutorial() {
 
             {/* Big Play button */}
             <div className="mt-10 flex flex-col items-center gap-3">
+              {/* Language toggle */}
+              <div className="flex items-center gap-1 bg-white/10 rounded-full p-1 mb-1">
+                {[{ id: 'en', label: 'EN' }, { id: 'am', label: 'አማ' }].map(({ id, label }) => (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => {
+                      if (audioLang === id) return
+                      setAudioLang(id)
+                      // Clear cache so next play uses the new language
+                      phaseSourcesRef.current = {}
+                      // If playing, restart the current phase in new language
+                      if (isPlaying) {
+                        audioRef.current?.pause()
+                        setIsPlaying(false)
+                        setTimeout(() => playPhase(currentPhaseIdx), 50)
+                      }
+                    }}
+                    className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${
+                      audioLang === id
+                        ? 'bg-white text-[#0a2540] shadow'
+                        : 'text-white/70 hover:text-white'
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+
               <button
                 type="button"
                 onClick={togglePlay}

@@ -109,9 +109,12 @@ export const PHASES = [
     id: 'intro',
     title: 'Intro',
     audioFile: 'https://cjvbvdzfijqhnrrbzuhl.supabase.co/storage/v1/object/public/audio/voiceover-intro.wav',
+    audioFileAm: 'https://cjvbvdzfijqhnrrbzuhl.supabase.co/storage/v1/object/public/audio/am/voiceover-intro.wav',
     fallbackMs: 35_000,
     script:
       "Say warmly and professionally: Welcome to FellowFlow... where we believe conference registration should be the easiest part of your event planning. Today... we're excited to show you how we've transformed the complex sign-up process into a seamless experience. Our promise is simple... conference registration made effortless. To see FellowFlow in action... let's look at our upcoming flagship event: the Midwest Conference 2026. We've distilled the registration process into three intuitive steps.",
+    scriptAm:
+      'በሙቀትና በሙያዊ ቃና ይናገሩ: እንኳን ደህና መጡ ወደ ፌሎፍሎ... የጉባኤ ምዝገባ የዝግጅትዎ ቀላሉ ክፍል ሊሆን ይገባዋል ብለን እናምናለን። ዛሬ... ውስብስቡን ምዝገባ ሂደት ወደ ቀላልና ለስላሳ ተሞክሮ እንዴት እንደቀየርነው እናሳይዎታለን። ቃላችን ቀላል ነው... ምዝገባ ያለምንም ድካም። ፌሎፍሎን በተግባር ለማየት... ዋናውን ዝግጅታችንን እንመልከት፦ የሚድዌስት ጉባኤ 2026። የምዝገባ ሂደቱን ወደ ሦስት ቀላል ደረጃዎች አሳጥረናል።',
     events: [
       { pct: 0.0, step: 1, text: 'Welcome to FellowFlow...' },
       {
@@ -141,9 +144,12 @@ export const PHASES = [
     id: 'form',
     title: 'Dynamic Form',
     audioFile: 'https://cjvbvdzfijqhnrrbzuhl.supabase.co/storage/v1/object/public/audio/voiceover-form.wav',
+    audioFileAm: 'https://cjvbvdzfijqhnrrbzuhl.supabase.co/storage/v1/object/public/audio/am/voiceover-form.wav',
     fallbackMs: 85_000,
     script:
       "Say warmly and professionally: Let's jump into the first step. Before entering our details... notice how the form dynamically adapts to your service preference. If you select the Amharic service... the age ranges are simplified into broad categories like Infant, Child, Youth, and Adult. However... if you switch to the English service, the system reveals more granular service groups to ensure attendees are placed in the right sessions. Under Child... you'll see Preschool and Children options with their age ranges. Youth... opens a Grade slash Level dropdown from seventh through twelfth grade. And Adult... adds College slash Career to that dropdown. Now that we see how it works... let's register our primary attendee. We'll type Test, for the first name... and User, for the last name. We'll select the Amharic service... and the Adult age range. Next, we select our Gender... which is vital because the system uses it to ensure proper dormitory and lodging assignments. We'll choose Male. For our Church... we'll pick Ethiopian Evangelical Christian Church in Austin from the list. Notice... the City field auto-fills to Austin, Texas, saving a step. And we'll pick an optional T-shirt size, Large, for a personal touch at check-in.",
+    scriptAm:
+      'በሙቀትና በሙያዊ ቃና ይናገሩ: ወደ ቀዳሚው ደረጃ እንሻገር። ዝርዝሮቻችንን ከማስገባታችን በፊት... ቅጹ ለምርጫዎ እንዴት ተለዋዋጭ እንደሆነ ልብ ይበሉ። የአማርኛ አገልግሎት ከመረጡ... የዕድሜ ክልሎቹ ወደ ህፃን፣ ልጅ፣ ወጣት፣ እና ጎልማሳ ይቀለሉናል። ነገር ግን... የእንግሊዝኛ አገልግሎት ከመረጡ ስርዓቱ ዝርዝር ምድቦችን ያሳያል። ልጆች ስር... ቅድመ ትምህርት ቤትና ህፃናት ምርጫዎችን ያያሉ። ወጣቶች... ከ7ኛ እስከ 12ኛ ክፍል ዝርዝር ይከፈታል። ጎልማሳ... ኮሌጅ እና ሥራ ምድብ ይጨምራል። አሁን እንዴት እንደሚሰራ ስለተረዳን... ዋናውን ተሳታፊ እናስመዘግብ። Test የመጀመሪያ ስምና... User የአያት ስም እናስገባ። የአማርኛ አገልግሎትና... ጎልማሳ ዕድሜ ክልል እንምረጥ። ቀጥሎ ጾታ እንምረጥ... ለመኝታ ቤት ምደባ አስፈላጊ ነው። ወንድ እንምረጥ። ቤተ ክርስቲያናቸውን... ኢትዮጵያ ኢቫንጀሊካዊ ክርስቲያን ቤተ ክርስቲያን ኦስቲን እናስምረጥ። ሲቲ መስኩ ወደ ኦስቲን ቴክሳስ ራሱ ይሞላል። የሸሚዝ መጠን... ትልቅ፣ ፈቃደኛ ምርጫ እናስምረጥ።',
     events: [
       {
         pct: 0.0,
@@ -200,9 +206,12 @@ export const PHASES = [
     id: 'attendance',
     title: 'Full & Partial',
     audioFile: 'https://cjvbvdzfijqhnrrbzuhl.supabase.co/storage/v1/object/public/audio/voiceover-attendance.wav',
+    audioFileAm: 'https://cjvbvdzfijqhnrrbzuhl.supabase.co/storage/v1/object/public/audio/am/voiceover-attendance.wav',
     fallbackMs: 40_000,
     script:
       "Say warmly and professionally: Now for the most important part... the Attendance Type. First, Full Conference gives you the complete four-day experience — lodging, every meal, and all sessions. Watch the Price Summary instantly calculate your total. But life happens... and sometimes you need flexibility. Let's pick Partial Attendance instead. Say you're joining us Friday through Sunday... we'll tap those three days. Notice... every meal for those days is intelligently pre-selected for you. Running late on Friday? Simply uncheck Friday Breakfast... and Friday Lunch. Only pay for what you truly need — the price updates in real time.",
+    scriptAm:
+      'በሙቀትና በሙያዊ ቃና ይናገሩ: አሁን ለዋናው ክፍል እንሻገር... የተሳታፊነት አይነት። በመጀመሪያ፣ ሙሉ ጉባኤ ሙሉ የአራት ቀን ተሞክሮን ይሰጥዎታል — ማረፊያ፣ ሁሉም ምግቦች፣ እና ሁሉም ክፍለ ጊዜዎች። የዋጋ ማጠቃለያ ወዲያው ጠቅላላ ዋጋዎን ሲያሰላ ይመልከቱ። ነገር ግን ሕይወት ዓላማዎን ሊቀይር ይችላል... አንዳንዴ ተለዋዋጭነት ይፈልጋሉ። ሌላ ጊዜ ተሳትፎን እናስምረጥ። ከዓርብ እስከ እሑድ ይቀላቀሉናል እንበል... ሦስቱን ቀናት እናስምረጥ። ልብ ይበሉ... ለነዚያ ቀናት ሁሉም ምግቦች ራሱ ይመረጣሉ። ዓርብ ዘግይተዋል? የዓርብ ቁርስን... እና የዓርብ ምሳን ያስቀሩ። ለሚፈልጉት ብቻ ይክፈሉ — ዋጋው በቅጽበት ይዘምናል።',
     events: [
       { pct: 0.0, step: 20, text: 'Now for the most important part... the Attendance Type.' },
       {
@@ -234,9 +243,12 @@ export const PHASES = [
     id: 'kote',
     title: 'Kote',
     audioFile: 'https://cjvbvdzfijqhnrrbzuhl.supabase.co/storage/v1/object/public/audio/voiceover-kote.wav',
+    audioFileAm: 'https://cjvbvdzfijqhnrrbzuhl.supabase.co/storage/v1/object/public/audio/am/voiceover-kote.wav',
     fallbackMs: 32_000,
     script:
       "Say warmly and professionally: Finally... for our daily commuters, we have Kote. A simple ten-dollars-per-day rate, with no lodging fees attached. We'll tap Saturday... and Sunday. Unlike Partial, meals aren't pre-selected — giving you full control. We'll add Breakfast, Lunch, and Dinner for Saturday... and Breakfast and Lunch for Sunday. And just like that... the Price Summary gives us our exact, custom total. Conference registration, reimagined.",
+    scriptAm:
+      'በሙቀትና በሙያዊ ቃና ይናገሩ: በመጨረሻ... ዕለታዊ ተሳታፊዎቻችን ለሆኑ ኮተ አለ። በቀን አሥር ዶላር ብቻ፣ ያለ ማረፊያ ክፍያ። ቅዳሜን... እና እሑድን እናስምረጥ። ሌላ ጊዜ ከቆዩ ምርጫዎቹ ሳይወሰኑ ቀርተዋል — ሙሉ ቁጥጥር ይሰጥዎታል። ቅዳሜ ቁርስ፣ ምሳ፣ እና እራትን... እሑድ ቁርስ እና ምሳን እናስምረጥ። ልክ እንደዚሁ... የዋጋ ማጠቃለያ ትክክለኛ ጠቅላላ ዋጋዎን ያሳየናል። የጉባኤ ምዝገባ፣ እንደ አዲስ ተፀነሰ።',
     events: [
       {
         pct: 0.0,
@@ -258,9 +270,12 @@ export const PHASES = [
     id: 'child',
     title: 'Child Registration',
     audioFile: 'https://cjvbvdzfijqhnrrbzuhl.supabase.co/storage/v1/object/public/audio/voiceover-child.wav',
+    audioFileAm: 'https://cjvbvdzfijqhnrrbzuhl.supabase.co/storage/v1/object/public/audio/am/voiceover-child.wav',
     fallbackMs: 38_000,
     script:
       "Say warmly and professionally: FellowFlow makes it easy to add your whole family under one account. Let's click Add Another Person, to register a child. We'll enter the first name, Child... and the last name, Child. We'll select the English service... choose the Child age range... and pick the Children service group. We'll select their gender, and a T-shirt size. Now... for children, parents have a special choice. Scroll down, and toggle, Child will share bed with parent. Watch the price summary on the right... the lodging fee is completely removed instantly.",
+    scriptAm:
+      'በሙቀትና በሙያዊ ቃና ይናገሩ: ፌሎፍሎ ቤተሰቦን ሁሉ በአንድ ሂሳብ ላይ ማስመዝገብ ቀላል ያደርጋል። ሌላ ሰው ያክሉ የሚለውን ጠቅ ያድርጉ፣ ልጅ ለማስመዝገብ። Child የሚለውን የመጀመሪያ ስምና... Child ያዝ ስም እናስገባ። የእንግሊዝኛ አገልግሎት እናስምረጥ... ልጅ ዕድሜ ክልልን እናስምረጥ... እና ህፃናት አገልግሎት ቡድን እናስምረጥ። ጾታቸውን እና የሸሚዝ መጠናቸውን እናስምረጥ። አሁን... ለልጆች ወላጆች ልዩ ምርጫ አላቸው። ወደ ታች ይሸብልሉ፣ ልጅ ከወላጅ ጋር ይተኛል የሚለውን ያብሩ። የዋጋ ማጠቃለያ ወዲያው... የማረፊያ ክፍያ ሙሉ ለሙሉ ይቀነሳል።',
     events: [
       {
         pct: 0.0,
@@ -298,9 +313,12 @@ export const PHASES = [
     id: 'infant',
     title: 'Infant & Insurance',
     audioFile: 'https://cjvbvdzfijqhnrrbzuhl.supabase.co/storage/v1/object/public/audio/voiceover-infant.wav',
+    audioFileAm: 'https://cjvbvdzfijqhnrrbzuhl.supabase.co/storage/v1/object/public/audio/am/voiceover-infant.wav',
     fallbackMs: 36_000,
     script:
       "Say warmly and professionally: Next... let's add a third family member. We click Add Another Person... enter the first name, Infant... and last name, Infant... and select the Infant age range. For infants, the dormitory and meals are completely complimentary. A small ten-dollar per-day campus insurance fee applies... bringing the infant's total to just forty dollars for the four-day conference. And with that, our entire family of three is registered and ready.",
+    scriptAm:
+      'በሙቀትና በሙያዊ ቃና ይናገሩ: ቀጥሎ... ሦስተኛ ቤተሰብ አባል እናክል። ሌላ ሰው ያክሉ ጠቅ ያድርጉ... Infant የሚለውን የመጀመሪያ ስምና... Infant ያዝ ስም አስገብተን... ሕፃን ዕድሜ ክልልን እናስምረጥ። ለሕፃናት ማረፊያና ምግብ ሙሉ በሙሉ ነፃ ነው። አነስተኛ በቀን አሥር ዶላር የካምፓስ መድን ክፍያ ይጨምራል... ይህም ለሕፃኑ ጠቅላላ ክፍያ ለአራት ቀን ጉባኤ አርባ ዶላር ብቻ ያደርጋል። እናም ሦስት ሰው የቤተሰባችን ምዝገባ ሙሉ ሆኗል።',
     events: [
       {
         pct: 0.0,
@@ -333,9 +351,12 @@ export const PHASES = [
     id: 'checkout',
     title: 'Contact & Checkout',
     audioFile: 'https://cjvbvdzfijqhnrrbzuhl.supabase.co/storage/v1/object/public/audio/voiceover-checkout.wav',
+    audioFileAm: 'https://cjvbvdzfijqhnrrbzuhl.supabase.co/storage/v1/object/public/audio/am/voiceover-checkout.wav',
     fallbackMs: 36_000,
     script:
       "Say warmly and professionally: Once our group is fully set... we click Next to fill out the contact info. Providing your email and phone number here is crucial... because this single email address is where your combined receipt, and all registration badges for your entire group, will be sent. After verifying all details on the Review page... we click Proceed to Payment. Here on our secure Stripe checkout... depending on your current device... you can choose to pay via credit card, bank transfer, Apple Pay, or use Link for a one-click checkout. We click Pay... and our registration is secured instantly.",
+    scriptAm:
+      'በሙቀትና በሙያዊ ቃና ይናገሩ: ቡድናችን ሙሉ ሲሆን... ቀጥሎ ጠቅ አድርገን የዕውቂያ መረጃ እናስገባ። ኢሜልዎና ስልክ ቁጥርዎን ማስገባት አስፈላጊ ነው... ምክንያቱም ይህ ኢሜል የጠቅላላ ደረሰኝዎና ለቡድኑ ሁሉ የምዝገባ ባጅ የሚላክበት ነው። በግምገማ ገጽ ላይ ዝርዝሩን ካረጋገጡ በኋላ... ወደ ክፍያ ቀጥሉ ጠቅ ያድርጉ። በጥበቃ ስትራይፕ ክፍያ ገጻችን ላይ... እንደ መሳሪያዎ... በክሬዲት ካርድ፣ ባንክ ዝውውር፣ አፕል ፔይ፣ ወይም ሊንክ ለፈጣን ክፍያ መምረጥ ይችላሉ። ይክፈሉ ጠቅ ያድርጉ... ምዝገባዎ ወዲያው ይረጋገጣል።',
     events: [
       {
         pct: 0.0,
@@ -368,9 +389,12 @@ export const PHASES = [
     id: 'badges',
     title: 'Digital Badges & Mobile Wallet',
     audioFile: 'https://cjvbvdzfijqhnrrbzuhl.supabase.co/storage/v1/object/public/audio/voiceover-badges.wav',
+    audioFileAm: 'https://cjvbvdzfijqhnrrbzuhl.supabase.co/storage/v1/object/public/audio/am/voiceover-badges.wav',
     fallbackMs: 58_000,
     script:
       "Say warmly and professionally: Success! Your confirmation page provides a full breakdown of the registration. From here... you can click the Apple Wallet button to add the wallet pass directly to your Apple devices. If you are eligible to buy meals... your digital badge will have a unique URL link in the details section on the back. Simply click that URL anytime to add preferred meal options for specific dates, and pay as usual. Your badge will automatically update to grant access to that paid meal service. You will also receive a registration confirmation email... containing your confirmation ID, payment details, and a PDF Registration Badge for each registrant in a single email. Print this badge out, or keep it on your phone... and have it ready at the campus upon check-in to easily access all your services.",
+    scriptAm:
+      'በሙቀትና በሙያዊ ቃና ይናገሩ: ተሳክቷል! የማረጋገጫ ገጽዎ ሙሉ የምዝገባ ዝርዝር ይሰጥዎታል። ከዚህ... የአፕል ዋሌት ቁልፍ ጠቅ አድርገው ዋሌት ፓሱን ወደ አፕል መሳሪያዎ መጨምር ይችላሉ። ምግብ ለመግዛት ብቁ ከሆኑ... ዲጂታል ባጅዎ ከኋላ ዝርዝር ክፍል ውስጥ ልዩ ሊንክ ይኖረዋል። ይህን ሊንክ ጠቅ አድርጉ የምትፈልጉትን ቀናት ምግብ ለመምረጥ፣ እና ክፍያ ይፈጽሙ። ባጅዎ ወዲያው ይዘምናል። እንዲሁም የምዝገባ ማረጋገጫ ኢሜል ይደርስዎታል... መረጋገጫ መታወቂያ፣ ክፍያ ዝርዝርና ለእያንዳንዱ ተሳታፊ ባጅ በአንድ ኢሜል። ባጁን ያትሙ ወይም በስልክዎ ይያዙ... በካምፓስ ሲደርሱ ሁሉንም አገልግሎቶች ለማግኘት ዝግጁ ይሁኑ።',
     events: [
       {
         pct: 0.0,
@@ -408,9 +432,12 @@ export const PHASES = [
     id: 'meals',
     title: 'Add Meals Anytime',
     audioFile: 'https://cjvbvdzfijqhnrrbzuhl.supabase.co/storage/v1/object/public/audio/voiceover-meals.wav',
+    audioFileAm: 'https://cjvbvdzfijqhnrrbzuhl.supabase.co/storage/v1/object/public/audio/am/voiceover-meals.wav',
     fallbackMs: 42_000,
     script:
       "Say warmly and professionally: Remember the Buy Meals QR on your printed badge... or the link on the back of your Apple Wallet pass. Scanning either one brings you straight to your personal Meal Tickets page. You can also reach it anytime from the Purchase Meal Tickets button on your receipt. On this page, you'll see exactly which meals you've already purchased... which are still available... and your per-meal price. Simply pick the meals you want — breakfast, lunch, or dinner — on any eligible date... and your total updates instantly. Click Pay... and complete checkout with Stripe. Your badge is automatically updated. Your new meals are now live — just show your QR at the meal station to claim them. Adding meals has never been easier.",
+    scriptAm:
+      'በሙቀትና በሙያዊ ቃና ይናገሩ: በታተመ ባጅዎ ላይ ያለውን ምግብ ግዛ QR ወይም የአፕል ዋሌት ፓስ ኋላ ያለውን ሊንክ ያስታውሱ። ሁለቱንም ስካን ሲያደርጉ ወደ የግልዎ የምግብ ትኬቶች ገጽ ያደርስዎታል። ከደረሰኝዎ ላይ ምግብ ትኬቶች ይግዙ ቁልፍ ጠቅ አድርገው ማንኛውም ጊዜ ሊደርሱ ይችላሉ። በዚህ ገጽ... ቀደም ብለው የገዙትን ምግቦች፣ ምን እንደቀረ፣ እና ዋጋዎን ያያሉ። የሚፈልጉትን ምግቦች ይምረጡ — ቁርስ፣ ምሳ፣ ወይም እራት — ለሚፈልጉት ቀን... ጠቅላላ ዋጋዎ ወዲያው ይዘምናል። ይክፈሉ ጠቅ አድርጉ... ክፍያ ይፈጽሙ። ባጅዎ ወዲያው ይዘምናል። አዲስ ምግቦችዎ ዝግጁ ናቸው — QRዎን ለምግብ ጣቢያ አሳዩ። ምግብ ማከል ከዚህ ቀላል ነበር።',
     events: [
       {
         pct: 0.0,
